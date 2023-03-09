@@ -25,18 +25,4 @@ class UserTest {
     void Should_ThrowException_WhenIncorrectData(String firstName, String lastName, String telNumber) {
         assertThrows(ClientException.class, () -> new Client(firstName, lastName, telNumber));
     }
-
-    @Test
-    void Should_SuccessfullyConfirm_isAdmin() {
-        User user = new Administrator("Janusz", "Tracz", "666666666");
-        assertTrue(user.isAdmin());
-        assertFalse(user.isModerator());
-    }
-
-    @Test
-    void Should_SuccessfullyConfirm_isModerator() {
-        User user = new Moderator("Janusz", "Tracz", "666666666");
-        assertTrue(user.isModerator());
-        assertFalse(user.isAdmin());
-    }
 }

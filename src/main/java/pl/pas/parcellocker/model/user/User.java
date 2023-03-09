@@ -39,14 +39,6 @@ public abstract class User extends EntityModel {
         active = true;
     }
 
-    public boolean isAdmin() {
-        return this instanceof Administrator;
-    }
-
-    public boolean isModerator() {
-        return this instanceof Moderator;
-    }
-
     private void validateName(String name) {
         if (name.isEmpty())
             throw new ClientException("Empty lastName variable!");

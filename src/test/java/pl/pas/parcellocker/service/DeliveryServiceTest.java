@@ -1,4 +1,4 @@
-package pl.pas.parcellocker.managers;
+package pl.pas.parcellocker.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -23,10 +23,10 @@ import pl.pas.parcellocker.model.user.Client;
 import pl.pas.parcellocker.model.user.User;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class DeliveryManagerTest extends TestsConfig {
+class DeliveryServiceTest extends TestsConfig {
 
-    private final DeliveryManager deliveryManager =
-        new DeliveryManager(deliveryRepository, lockerRepository, clientRepository);
+    private final DeliveryService deliveryService =
+        new DeliveryServiceImpl(deliveryRepository, lockerRepository, clientRepository);
     private final BigDecimal basePrice = BigDecimal.TEN;
     private User shipper1;
     private User receiver1;
@@ -52,7 +52,7 @@ class DeliveryManagerTest extends TestsConfig {
         assertThrows(
             NoResultException.class,
             () ->
-                deliveryManager.makeParcelDelivery(
+                deliveryService.makeParcelDelivery(
                     basePrice,
                     10,
                     20,
@@ -70,7 +70,7 @@ class DeliveryManagerTest extends TestsConfig {
         clientRepository.add(user);
 
         Delivery delivery =
-            deliveryManager.makeParcelDelivery(
+            deliveryService.makeParcelDelivery(
                 basePrice,
                 10,
                 20,
@@ -87,7 +87,7 @@ class DeliveryManagerTest extends TestsConfig {
         assertThrows(
             DeliveryManagerException.class,
             () ->
-                deliveryManager.putInLocker(
+                deliveryService.putInLocker(
                     refreshedDelivery.getId(),
                     refreshedDelivery.getLocker().getIdentityNumber(),
                     "123"));
@@ -102,7 +102,7 @@ class DeliveryManagerTest extends TestsConfig {
   @Test
   void Should_ThrowException_WhenDeliveryPutInAgain() {
     Delivery delivery =
-        deliveryManager.makeParcelDelivery(
+        deliveryService.makeParcelDelivery(
             basePrice,
             10,
             20,
@@ -113,26 +113,26 @@ class DeliveryManagerTest extends TestsConfig {
             receiver1.getTelNumber(),
             locker.getIdentityNumber());
 
-        deliveryManager.putInLocker(
+        deliveryService.putInLocker(
             delivery.getId(), delivery.getLocker().getIdentityNumber(), "54321");
         Delivery refreshedDelivery = deliveryRepository.get(delivery.getId());
 
         assertThrows(
             DeliveryManagerException.class,
             () ->
-                deliveryManager.putInLocker(
+                deliveryService.putInLocker(
                     refreshedDelivery.getId(),
                     refreshedDelivery.getLocker().getIdentityNumber(),
                     "65433"));
 
         locker = lockerRepository.get(locker.getId());
-        deliveryManager.takeOutDelivery(delivery.getId(), receiver1.getTelNumber(), "54321");
+        deliveryService.takeOutDelivery(delivery.getId(), receiver1.getTelNumber(), "54321");
     }
 
     @Test
     void Should_SetAllocationTime_WhenDeliveryPutInAndTookOut() {
         Delivery delivery =
-            deliveryManager.makeParcelDelivery(
+            deliveryService.makeParcelDelivery(
                 basePrice,
                 10,
                 20,
@@ -146,13 +146,13 @@ class DeliveryManagerTest extends TestsConfig {
         assertNull(delivery.getAllocationStart());
         assertNull(delivery.getAllocationStop());
 
-        deliveryManager.putInLocker(
+        deliveryService.putInLocker(
             delivery.getId(), delivery.getLocker().getIdentityNumber(), "54321");
         locker = lockerRepository.get(locker.getId());
         delivery = deliveryRepository.get(delivery.getId());
         assertNotNull(delivery.getAllocationStart());
 
-        deliveryManager.takeOutDelivery(delivery.getId(), receiver1.getTelNumber(), "54321");
+        deliveryService.takeOutDelivery(delivery.getId(), receiver1.getTelNumber(), "54321");
         locker = lockerRepository.get(locker.getId());
         delivery = deliveryRepository.get(delivery.getId());
         assertNotNull(delivery.getAllocationStop());
@@ -161,7 +161,7 @@ class DeliveryManagerTest extends TestsConfig {
     @Test
     void Should_BlockDepositBox_WhenDeliveryPutInLocker() {
         Delivery delivery =
-            deliveryManager.makeParcelDelivery(
+            deliveryService.makeParcelDelivery(
                 basePrice,
                 10,
                 20,
@@ -172,20 +172,20 @@ class DeliveryManagerTest extends TestsConfig {
                 receiver1.getTelNumber(),
                 locker.getIdentityNumber());
         int empty = locker.countEmpty();
-        deliveryManager.putInLocker(
+        deliveryService.putInLocker(
             delivery.getId(), delivery.getLocker().getIdentityNumber(), "12345");
         locker = lockerRepository.get(locker.getId());
 
         assertEquals(empty - 1, locker.countEmpty());
 
-        deliveryManager.takeOutDelivery(delivery.getId(), receiver1.getTelNumber(), "12345");
+        deliveryService.takeOutDelivery(delivery.getId(), receiver1.getTelNumber(), "12345");
         locker = lockerRepository.get(locker.getId());
     }
 
     @Test
     void Should_UnlockDepositBox_WhenDeliveryTookOut() {
         Delivery delivery =
-            deliveryManager.makeParcelDelivery(
+            deliveryService.makeParcelDelivery(
                 basePrice,
                 10,
                 20,
@@ -195,11 +195,11 @@ class DeliveryManagerTest extends TestsConfig {
                 shipper1.getTelNumber(),
                 receiver1.getTelNumber(),
                 locker.getIdentityNumber());
-        deliveryManager.putInLocker(
+        deliveryService.putInLocker(
             delivery.getId(), delivery.getLocker().getIdentityNumber(), "54321");
         locker = lockerRepository.get(locker.getId());
         int empty = locker.countEmpty();
-        deliveryManager.takeOutDelivery(delivery.getId(), receiver1.getTelNumber(), "54321");
+        deliveryService.takeOutDelivery(delivery.getId(), receiver1.getTelNumber(), "54321");
         locker = lockerRepository.get(locker.getId());
 
         assertEquals(empty + 1, locker.countEmpty());
@@ -211,7 +211,7 @@ class DeliveryManagerTest extends TestsConfig {
         lockerRepository.add(oneBoxLocker);
 
         Delivery testDelivery =
-            deliveryManager.makeParcelDelivery(
+            deliveryService.makeParcelDelivery(
                 basePrice,
                 10,
                 20,
@@ -221,24 +221,24 @@ class DeliveryManagerTest extends TestsConfig {
                 shipper1.getTelNumber(),
                 receiver1.getTelNumber(),
                 oneBoxLocker.getIdentityNumber());
-        deliveryManager.putInLocker(
+        deliveryService.putInLocker(
             testDelivery.getId(), testDelivery.getLocker().getIdentityNumber(), "1111");
         locker = lockerRepository.get(oneBoxLocker.getId());
 
         assertThrows(
             DeliveryManagerException.class,
             () ->
-                deliveryManager.putInLocker(
+                deliveryService.putInLocker(
                     testDelivery.getId(), testDelivery.getLocker().getIdentityNumber(), "1111"));
 
-        deliveryManager.takeOutDelivery(testDelivery.getId(), receiver1.getTelNumber(), "1111");
+        deliveryService.takeOutDelivery(testDelivery.getId(), receiver1.getTelNumber(), "1111");
         locker = lockerRepository.get(oneBoxLocker.getId());
     }
 
     @Test
     void Should_ReturnAllClientDeliveries() {
         Delivery delivery =
-            deliveryManager.makeParcelDelivery(
+            deliveryService.makeParcelDelivery(
                 basePrice,
                 10,
                 20,
@@ -249,7 +249,7 @@ class DeliveryManagerTest extends TestsConfig {
                 receiver1.getTelNumber(),
                 locker.getIdentityNumber());
         Delivery delivery1 =
-            deliveryManager.makeParcelDelivery(
+            deliveryService.makeParcelDelivery(
                 basePrice,
                 10,
                 20,
@@ -260,14 +260,14 @@ class DeliveryManagerTest extends TestsConfig {
                 receiver1.getTelNumber(),
                 locker.getIdentityNumber());
 
-        assertEquals(delivery, deliveryManager.getAllClientDeliveries(receiver1).get(0));
-        assertEquals(delivery1, deliveryManager.getAllClientDeliveries(receiver1).get(1));
+        assertEquals(delivery, deliveryService.getAllClientDeliveries(receiver1).get(0));
+        assertEquals(delivery1, deliveryService.getAllClientDeliveries(receiver1).get(1));
     }
 
     @Test
     void Should_ReturnAllReceivedDeliveriesForGivenClient() {
         Delivery delivery1 =
-            deliveryManager.makeParcelDelivery(
+            deliveryService.makeParcelDelivery(
                 basePrice,
                 10,
                 20,
@@ -277,17 +277,17 @@ class DeliveryManagerTest extends TestsConfig {
                 shipper1.getTelNumber(),
                 receiver1.getTelNumber(),
                 locker.getIdentityNumber());
-        deliveryManager.putInLocker(delivery1.getId(), delivery1.getLocker().getIdentityNumber(), "2222");
+        deliveryService.putInLocker(delivery1.getId(), delivery1.getLocker().getIdentityNumber(), "2222");
         locker = lockerRepository.get(locker.getId());
-        deliveryManager.takeOutDelivery(delivery1.getId(), receiver1.getTelNumber(), "2222");
+        deliveryService.takeOutDelivery(delivery1.getId(), receiver1.getTelNumber(), "2222");
         locker = lockerRepository.get(locker.getId());
 
-        assertTrue(0 < deliveryManager.getAllReceivedClientDeliveries(receiver1.getTelNumber()).size());
+        assertTrue(0 < deliveryService.getAllReceivedClientDeliveries(receiver1.getTelNumber()).size());
     }
 
     @Test
     void Should_ReturnAllCurrentDeliveriesForGivenClient() {
-            deliveryManager.makeParcelDelivery(
+            deliveryService.makeParcelDelivery(
                 basePrice,
                 10,
                 20,
@@ -298,13 +298,13 @@ class DeliveryManagerTest extends TestsConfig {
                 receiver1.getTelNumber(),
                 locker.getIdentityNumber());
 
-        assertTrue(0 < deliveryManager.getAllCurrentClientDeliveries(receiver1.getTelNumber()).size());
+        assertTrue(0 < deliveryService.getAllCurrentClientDeliveries(receiver1.getTelNumber()).size());
     }
 
     @Test
     void Should_ReturnCorrectBalanceForClientShipments() {
         Delivery delivery =
-            deliveryManager.makeParcelDelivery(
+            deliveryService.makeParcelDelivery(
                 basePrice,
                 10,
                 20,
@@ -314,19 +314,19 @@ class DeliveryManagerTest extends TestsConfig {
                 shipper1.getTelNumber(),
                 receiver1.getTelNumber(),
                 locker.getIdentityNumber());
-        deliveryManager.putInLocker(delivery.getId(), delivery.getLocker().getIdentityNumber(), "5555");
+        deliveryService.putInLocker(delivery.getId(), delivery.getLocker().getIdentityNumber(), "5555");
         locker = lockerRepository.get(locker.getId());
 
-        assertEquals(new BigDecimal("15.000"), deliveryManager.checkClientShipmentBalance(shipper1));
+        assertEquals(new BigDecimal("15.000"), deliveryService.checkClientShipmentBalance(shipper1));
 
-        deliveryManager.takeOutDelivery(delivery.getId(), receiver1.getTelNumber(), "5555");
+        deliveryService.takeOutDelivery(delivery.getId(), receiver1.getTelNumber(), "5555");
         locker = lockerRepository.get(locker.getId());
     }
 
   @Test
   void Should_ThrowException_WhenInvalidValuesPassed() {
     assertThrows(
-        DeliveryManagerException.class, () -> deliveryManager.checkClientShipmentBalance(null));
+        DeliveryManagerException.class, () -> deliveryService.checkClientShipmentBalance(null));
   }
 
 }

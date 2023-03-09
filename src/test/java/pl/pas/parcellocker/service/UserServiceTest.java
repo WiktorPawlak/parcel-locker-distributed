@@ -1,11 +1,9 @@
-package pl.pas.parcellocker.managers;
+package pl.pas.parcellocker.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.UUID;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,10 +16,10 @@ import pl.pas.parcellocker.model.user.Administrator;
 import pl.pas.parcellocker.model.user.User;
 import pl.pas.parcellocker.security.PermissionValidator;
 
-class UserManagerTest extends TestsConfig {
+class UserServiceTest extends TestsConfig {
 
     private final PermissionValidator permissionValidator = new PermissionValidator(clientRepository);
-    private final UserManager userManager = new UserManager(clientRepository, permissionValidator);
+    private final UserService userService = new UserServiceImpl(clientRepository, permissionValidator);
 
     private final String TEST_NAME = "Bartosh";
     private final String TEST_SURNAME = "Byniowski";
@@ -43,31 +41,31 @@ class UserManagerTest extends TestsConfig {
 
     @Test
     void Should_RegisterClient() {
-        userManager.registerClient(admin.getId(), TEST_NAME, TEST_SURNAME, TEST_TEL_NUMBER);
-        assertEquals(TEST_TEL_NUMBER, userManager.getUser(TEST_TEL_NUMBER).getTelNumber());
+        userService.registerClient(admin.getId(), TEST_NAME, TEST_SURNAME, TEST_TEL_NUMBER);
+        assertEquals(TEST_TEL_NUMBER, userService.getUser(TEST_TEL_NUMBER).getTelNumber());
     }
 
     @Test
     void Should_UnregisterClient() {
-        userManager.registerClient(admin.getId(), TEST_NAME, TEST_SURNAME, TEST_TEL_NUMBER);
-        assertTrue(userManager.getUser(TEST_TEL_NUMBER).isActive());
+        userService.registerClient(admin.getId(), TEST_NAME, TEST_SURNAME, TEST_TEL_NUMBER);
+        assertTrue(userService.getUser(TEST_TEL_NUMBER).isActive());
 
-        userManager.unregisterClient(admin.getId(), userManager.getUser(TEST_TEL_NUMBER));
-        assertFalse(userManager.getUser(TEST_TEL_NUMBER).isActive());
+        userService.unregisterClient(admin.getId(), userService.getUser(TEST_TEL_NUMBER));
+        assertFalse(userService.getUser(TEST_TEL_NUMBER).isActive());
     }
 
     @Test
     void Should_GetClient() {
-        userManager.registerClient(admin.getId(), TEST_NAME, TEST_SURNAME, TEST_TEL_NUMBER);
-        assertEquals(userManager.getUser(TEST_TEL_NUMBER).getFirstName(), TEST_NAME);
-        assertThrows(NoResultException.class, () -> userManager.getUser(TEST_WRONG_TEL_NUMBER));
+        userService.registerClient(admin.getId(), TEST_NAME, TEST_SURNAME, TEST_TEL_NUMBER);
+        assertEquals(userService.getUser(TEST_TEL_NUMBER).getFirstName(), TEST_NAME);
+        assertThrows(NoResultException.class, () -> userService.getUser(TEST_WRONG_TEL_NUMBER));
     }
 
     @Test
     void Should_ThrowException_WhenInvalidValuesPassed() {
-        userManager.registerClient(admin.getId(), TEST_NAME, TEST_SURNAME, TEST_TEL_NUMBER);
-        assertThrows(ClientManagerException.class, () -> userManager.getUser(""));
-        assertThrows(ClientManagerException.class, () -> userManager.unregisterClient(admin.getId(), null));
+        userService.registerClient(admin.getId(), TEST_NAME, TEST_SURNAME, TEST_TEL_NUMBER);
+        assertThrows(ClientManagerException.class, () -> userService.getUser(""));
+        assertThrows(ClientManagerException.class, () -> userService.unregisterClient(admin.getId(), null));
     }
 
 }

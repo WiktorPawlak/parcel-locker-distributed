@@ -1,4 +1,4 @@
-package pl.pas.parcellocker.managers;
+package pl.pas.parcellocker.service;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -9,15 +9,16 @@ import pl.pas.parcellocker.model.locker.LockerRepository;
 
 @ApplicationScoped
 @NoArgsConstructor
-public class LockerManager {
+public class LockerServiceImpl implements LockerService {
 
     @Inject
     private LockerRepository lockerRepository;
 
-    public LockerManager(LockerRepository lockerRepository) {
+    public LockerServiceImpl(LockerRepository lockerRepository) {
         this.lockerRepository = lockerRepository;
     }
 
+    @Override
     public synchronized Locker createLocker(String identityNumber, String address, int depositBoxCount) {
         checkIfDuplicatedName(identityNumber);
 
@@ -26,11 +27,13 @@ public class LockerManager {
         return locker;
     }
 
-    private void checkIfDuplicatedName(String name) {
+    @Override
+    public void checkIfDuplicatedName(String name) {
         if (lockerRepository.findByIdentityNumber(name).isPresent())
             error("Locker with given name already exists.");
     }
 
+    @Override
     public Locker getLocker(String identityNumber) {
         return lockerRepository.findByIdentityNumber(identityNumber)
             .orElseThrow(() ->
@@ -38,6 +41,7 @@ public class LockerManager {
             );
     }
 
+    @Override
     public synchronized void removeLocker(String identityNumber) {
         Locker lockerToRemove = getLocker(identityNumber);
 

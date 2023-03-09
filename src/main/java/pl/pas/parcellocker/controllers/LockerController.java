@@ -14,21 +14,21 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import pl.pas.parcellocker.controllers.dto.LockerDto;
 import pl.pas.parcellocker.exceptions.LockerManagerException;
-import pl.pas.parcellocker.managers.LockerManager;
+import pl.pas.parcellocker.service.LockerService;
 import pl.pas.parcellocker.model.locker.Locker;
 
 @Path(value = "/lockers")
 public class LockerController {
 
     @Inject
-    private LockerManager lockerManager;
+    private LockerService lockerService;
 
     @GET
     @Path("/{identityNumber}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getLocker(@PathParam("identityNumber") String identityNumber) {
         try {
-            return Response.ok().entity(lockerManager.getLocker(identityNumber)).build();
+            return Response.ok().entity(lockerService.getLocker(identityNumber)).build();
         } catch (LockerManagerException e) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
@@ -39,7 +39,7 @@ public class LockerController {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addLocker(@Valid LockerDto lockerDto) {
         try {
-            Locker newLocker = lockerManager.createLocker(
+            Locker newLocker = lockerService.createLocker(
                 lockerDto.identityNumber,
                 lockerDto.address,
                 lockerDto.numberOfBoxes
@@ -57,7 +57,7 @@ public class LockerController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response removeLocker(@PathParam("identityNumber") String identityNumber) {
         try {
-            lockerManager.removeLocker(identityNumber);
+            lockerService.removeLocker(identityNumber);
             return Response.status(Response.Status.NO_CONTENT).build();
         } catch (ValidationException | NullPointerException e) {
             return Response.status(Response.Status.NOT_ACCEPTABLE).build();

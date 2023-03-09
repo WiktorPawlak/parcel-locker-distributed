@@ -1,4 +1,4 @@
-package pl.pas.parcellocker.managers;
+package pl.pas.parcellocker.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -14,35 +14,35 @@ import pl.pas.parcellocker.model.locker.Locker;
 import pl.pas.parcellocker.model.user.Client;
 import pl.pas.parcellocker.model.user.User;
 
-class LockerManagerTest extends TestsConfig {
+class LockerServiceTest extends TestsConfig {
 
-    private final LockerManager lockerManager = new LockerManager(lockerRepository);
+    private final LockerService lockerService = new LockerServiceImpl(lockerRepository);
 
     @Test
     void Should_CreateLocker() {
-        Locker locker = lockerManager.createLocker("LDZ69", "Gawronska 9, Lodz 12-123", 10);
-        assertEquals(lockerManager.getLocker("LDZ69").getIdentityNumber(), locker.getIdentityNumber());
+        Locker locker = lockerService.createLocker("LDZ69", "Gawronska 9, Lodz 12-123", 10);
+        assertEquals(lockerService.getLocker("LDZ69").getIdentityNumber(), locker.getIdentityNumber());
     }
 
     @Test
     void Should_RemoveLocker() {
-        Locker locker = lockerManager.createLocker("LDZ12", "Gawronska 9, Lodz 12-123", 10);
-        lockerManager.removeLocker("LDZ12");
-        assertThrows(LockerManagerException.class, () -> lockerManager.getLocker("LDZ12"));
+        Locker locker = lockerService.createLocker("LDZ12", "Gawronska 9, Lodz 12-123", 10);
+        lockerService.removeLocker("LDZ12");
+        assertThrows(LockerManagerException.class, () -> lockerService.getLocker("LDZ12"));
     }
 
     @Test
     void Should_ThrowException_WhenThereIsAllocationOnLocker() {
-        Locker locker = lockerManager.createLocker("LDZ12", "Gawronska 9, Lodz 12-123", 10);
+        Locker locker = lockerService.createLocker("LDZ12", "Gawronska 9, Lodz 12-123", 10);
 
-        DeliveryManager deliveryManager =
-            new DeliveryManager(deliveryRepository, lockerRepository, clientRepository);
+        DeliveryService deliveryService =
+            new DeliveryServiceImpl(deliveryRepository, lockerRepository, clientRepository);
         User shipper1 = new Client("Oscar", "Trel", "321312312");
         User receiver1 = new Client("Bartosh", "Siekan", "123123123");
         clientRepository.add(shipper1);
         clientRepository.add(receiver1);
         Delivery delivery =
-            deliveryManager.makeParcelDelivery(
+            deliveryService.makeParcelDelivery(
                 BigDecimal.TEN,
                 10,
                 20,
@@ -52,18 +52,18 @@ class LockerManagerTest extends TestsConfig {
                 shipper1.getTelNumber(),
                 receiver1.getTelNumber(),
                 locker.getIdentityNumber());
-        deliveryManager.putInLocker(delivery.getId(), delivery.getLocker().getIdentityNumber(), "123");
+        deliveryService.putInLocker(delivery.getId(), delivery.getLocker().getIdentityNumber(), "123");
 
-        assertThrows(LockerManagerException.class, () -> lockerManager.removeLocker("LDZ12"));
+        assertThrows(LockerManagerException.class, () -> lockerService.removeLocker("LDZ12"));
 
-        deliveryManager.takeOutDelivery(delivery.getId(), receiver1.getTelNumber(), "123");
+        deliveryService.takeOutDelivery(delivery.getId(), receiver1.getTelNumber(), "123");
     }
 
     @Test
     void Should_ThrowException_WhenGivenLockerNameIsDuplicated() {
-        lockerManager.createLocker("LDZ11", "Gawronska 12, Lodz 12-123", 10);
+        lockerService.createLocker("LDZ11", "Gawronska 12, Lodz 12-123", 10);
         assertThrows(
             LockerManagerException.class,
-            () -> lockerManager.createLocker("LDZ11", "Gawronska 22, Lodz 12-123", 10));
+            () -> lockerService.createLocker("LDZ11", "Gawronska 22, Lodz 12-123", 10));
     }
 }

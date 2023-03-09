@@ -1,4 +1,4 @@
-package pl.pas.parcellocker.managers;
+package pl.pas.parcellocker.service;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,7 +19,7 @@ import pl.pas.parcellocker.security.PermissionValidator;
 
 @ApplicationScoped
 @NoArgsConstructor
-public class UserManager {
+public class UserServiceImpl implements UserService {
 
     @Inject
     private PermissionValidator permissionValidator;
@@ -27,11 +27,12 @@ public class UserManager {
     @Inject
     private UserRepository clientRepository;
 
-    public UserManager(UserRepository clientRepository, PermissionValidator permissionValidator) {
+    public UserServiceImpl(UserRepository clientRepository, PermissionValidator permissionValidator) {
         this.clientRepository = clientRepository;
         this.permissionValidator = permissionValidator;
     }
 
+    @Override
     public User getUser(String telNumber) {
         validateIfEmpty(telNumber);
 
@@ -44,12 +45,14 @@ public class UserManager {
         }
     }
 
+    @Override
     public List<User> getUsersByPartialTelNumber(String telNumberPart) {
         validateIfEmpty(telNumberPart);
 
         return clientRepository.findByTelNumberPart(telNumberPart);
     }
 
+    @Override
     public synchronized User registerClient(UUID operatorId, String firstName, String lastName, String telNumber) {
         if (!permissionValidator.checkPermissions(operatorId, List.of(Administrator.class))) {
             throw new PermissionValidationException("Not sufficient access rights");
@@ -67,6 +70,7 @@ public class UserManager {
         return newUser;
     }
 
+    @Override
     public User unregisterClient(UUID operatorId, User user) {
         if (!permissionValidator.checkPermissions(operatorId, List.of(Administrator.class, Moderator.class))) {
             throw new PermissionValidationException("Not sufficient access rights");

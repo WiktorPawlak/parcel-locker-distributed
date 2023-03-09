@@ -1,4 +1,4 @@
-package pl.pas.parcellocker.managers;
+package pl.pas.parcellocker.service;
 
 import static pl.pas.parcellocker.model.delivery.DeliveryStatus.READY_TO_PICKUP;
 
@@ -24,7 +24,7 @@ import pl.pas.parcellocker.model.user.UserRepository;
 @ApplicationScoped
 @NoArgsConstructor
 @AllArgsConstructor
-public class DeliveryManager {
+public class DeliveryServiceImpl implements DeliveryService {
 
     @Inject
     private DeliveryRepository deliveryRepository;
@@ -33,6 +33,7 @@ public class DeliveryManager {
     @Inject
     private UserRepository userRepository;
 
+    @Override
     public synchronized Delivery makeParcelDelivery(
         BigDecimal basePrice,
         double width,
@@ -65,6 +66,7 @@ public class DeliveryManager {
         return delivery;
     }
 
+    @Override
     public synchronized Delivery makeListDelivery(
         BigDecimal basePrice,
         boolean isPriority,
@@ -91,6 +93,7 @@ public class DeliveryManager {
         return delivery;
     }
 
+    @Override
     public synchronized void putInLocker(UUID deliveryId, String lockerId, String accessCode) {
         Delivery latestDeliveryState = deliveryRepository.get(deliveryId);
 
@@ -112,6 +115,7 @@ public class DeliveryManager {
         deliveryRepository.update(latestDeliveryState);
     }
 
+    @Override
     public synchronized void takeOutDelivery(UUID deliveryId, String receiverTel, String accessCode) {
         Delivery latestDeliveryState = deliveryRepository.get(deliveryId);
 
@@ -132,6 +136,7 @@ public class DeliveryManager {
         }
     }
 
+    @Override
     public BigDecimal checkClientShipmentBalance(User user) {
         BigDecimal balance = BigDecimal.ZERO;
         if (user == null) throw new DeliveryManagerException("User is a nullptr!");
@@ -142,10 +147,12 @@ public class DeliveryManager {
         return balance;
     }
 
+    @Override
     public List<Delivery> getAllClientDeliveries(User user) {
         return deliveryRepository.findByUser(user);
     }
 
+    @Override
     public List<Delivery> getAllCurrentClientDeliveries(String telNumber) {
         Client client =
             (Client) userRepository
@@ -155,6 +162,7 @@ public class DeliveryManager {
         return deliveryRepository.findCurrentByClient(client);
     }
 
+    @Override
     public List<Delivery> getAllReceivedClientDeliveries(String telNumber) {
         Client receiver =
             (Client) userRepository
@@ -164,6 +172,7 @@ public class DeliveryManager {
         return deliveryRepository.findReceivedByClient(receiver);
     }
 
+    @Override
     public Delivery getDelivery(UUID id) {
         return deliveryRepository.get(id);
     }

@@ -19,22 +19,21 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import pl.pas.parcellocker.controllers.dto.ClientDto;
 import pl.pas.parcellocker.exceptions.ClientManagerException;
-import pl.pas.parcellocker.exceptions.DeliveryManagerException;
-import pl.pas.parcellocker.managers.UserManager;
+import pl.pas.parcellocker.service.UserService;
 import pl.pas.parcellocker.model.user.User;
 
 @Path(value = "/clients")
 public class ClientController {
 
     @Inject
-    private UserManager userManager;
+    private UserService userService;
 
     @GET
     @Path("/{telNumber}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getClient(@PathParam("telNumber") String telNumber) {
         try {
-            return Response.ok().entity(userManager.getUser(telNumber)).build();
+            return Response.ok().entity(userService.getUser(telNumber)).build();
         } catch (NoResultException e) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
@@ -44,7 +43,7 @@ public class ClientController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getClientsByPhoneNumberPattern(@QueryParam("telNumber") String telNumber) {
         try {
-            return Response.ok().entity(userManager.getUsersByPartialTelNumber(telNumber)).build();
+            return Response.ok().entity(userService.getUsersByPartialTelNumber(telNumber)).build();
         } catch (NoResultException e) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
@@ -55,7 +54,7 @@ public class ClientController {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response registerClient(@QueryParam("operatorId") UUID operatorID, @Valid ClientDto clientDTO) {
         try {
-            User newUser = userManager.registerClient(operatorID, clientDTO.firstName, clientDTO.lastName, clientDTO.telNumber);
+            User newUser = userService.registerClient(operatorID, clientDTO.firstName, clientDTO.lastName, clientDTO.telNumber);
             return Response.status(Response.Status.CREATED).entity(newUser).build();
         } catch (ValidationException | NullPointerException e) {
             return Response.status(Response.Status.NOT_ACCEPTABLE).build();
@@ -69,8 +68,8 @@ public class ClientController {
     @Consumes({MediaType.TEXT_PLAIN})
     public Response unregisterClient(@QueryParam("operatorId") UUID operatorId, String telNumber) {
         try {
-            User user = userManager.getUser(telNumber);
-            User unregisteredUser = userManager.unregisterClient(operatorId, user);
+            User user = userService.getUser(telNumber);
+            User unregisteredUser = userService.unregisterClient(operatorId, user);
             return Response.ok().entity(unregisteredUser).build();
         } catch (ValidationException | NullPointerException e) {
             return Response.status(Response.Status.NOT_ACCEPTABLE).build();

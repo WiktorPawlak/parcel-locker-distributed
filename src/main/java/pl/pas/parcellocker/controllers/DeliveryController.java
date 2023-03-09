@@ -18,7 +18,7 @@ import pl.pas.parcellocker.controllers.dto.DeliveryListDto;
 import pl.pas.parcellocker.controllers.dto.DeliveryParcelDto;
 import pl.pas.parcellocker.exceptions.DeliveryManagerException;
 import pl.pas.parcellocker.exceptions.LockerException;
-import pl.pas.parcellocker.managers.DeliveryManager;
+import pl.pas.parcellocker.service.DeliveryService;
 import pl.pas.parcellocker.model.delivery.Delivery;
 
 import java.util.UUID;
@@ -27,14 +27,14 @@ import java.util.UUID;
 public class DeliveryController {
 
     @Inject
-    private DeliveryManager deliveryManager;
+    private DeliveryService deliveryService;
 
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getDelivery(@PathParam("id") UUID id) {
         try {
-            return Response.ok().entity(deliveryManager.getDelivery(id)).build();
+            return Response.ok().entity(deliveryService.getDelivery(id)).build();
         } catch (NoResultException e) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
@@ -45,7 +45,7 @@ public class DeliveryController {
   @Produces(MediaType.APPLICATION_JSON)
   public Response getCurrentDeliveries(@QueryParam("telNumber") String telNumber) {
     try {
-      return Response.ok().entity(deliveryManager.getAllCurrentClientDeliveries(telNumber)).build();
+      return Response.ok().entity(deliveryService.getAllCurrentClientDeliveries(telNumber)).build();
     } catch (NoResultException e) {
       return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
     }
@@ -57,7 +57,7 @@ public class DeliveryController {
   public Response getReceivedDelivery(@QueryParam("telNumber") String telNumber) {
     try {
       return Response.ok()
-          .entity(deliveryManager.getAllReceivedClientDeliveries(telNumber))
+          .entity(deliveryService.getAllReceivedClientDeliveries(telNumber))
           .build();
     } catch (NoResultException | DeliveryManagerException e) {
       return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
@@ -71,7 +71,7 @@ public class DeliveryController {
     public Response addListDelivery(@Valid DeliveryListDto deliveryListDto) {
         try {
             Delivery delivery =
-                deliveryManager.makeListDelivery(
+                deliveryService.makeListDelivery(
                     deliveryListDto.pack.basePrice,
                     deliveryListDto.pack.isPriority,
                     deliveryListDto.shipperTel,
@@ -92,7 +92,7 @@ public class DeliveryController {
     public Response addParcelDelivery(@Valid DeliveryParcelDto deliveryParcelDto) {
         try {
             Delivery delivery =
-                deliveryManager.makeParcelDelivery(
+                deliveryService.makeParcelDelivery(
                     deliveryParcelDto.pack.basePrice,
                     deliveryParcelDto.pack.width,
                     deliveryParcelDto.pack.height,
@@ -118,7 +118,7 @@ public class DeliveryController {
       @QueryParam("lockerId") String lockerId,
       @QueryParam("accessCode") String accessCode) {
     try {
-      deliveryManager.putInLocker(deliveryId, lockerId, accessCode);
+      deliveryService.putInLocker(deliveryId, lockerId, accessCode);
       return Response.ok().build();
     } catch (ValidationException | NullPointerException e) {
       return Response.status(Response.Status.NOT_ACCEPTABLE).build();
@@ -137,7 +137,7 @@ public class DeliveryController {
       @QueryParam("telNumber") String telNumber,
       @QueryParam("accessCode") String accessCode) {
     try {
-      deliveryManager.takeOutDelivery(deliveryId, telNumber, accessCode);
+      deliveryService.takeOutDelivery(deliveryId, telNumber, accessCode);
       return Response.ok().build();
     } catch (ValidationException | NullPointerException e) {
       return Response.status(Response.Status.NOT_ACCEPTABLE).build();
