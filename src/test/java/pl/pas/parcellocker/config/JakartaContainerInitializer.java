@@ -30,7 +30,7 @@ public class JakartaContainerInitializer {
     private static final String CONTAINER_DEPLOYMENT_PATH = "/opt/payara/deployments/";
     private static final DockerImageName PAYARA_IMAGE = DockerImageName
         .parse("payara/micro")
-        .withTag("5.2022.3-jdk11");
+        .withTag("6.2023.2-jdk17");
 
     private static final Network network = Network.newNetwork();
 
