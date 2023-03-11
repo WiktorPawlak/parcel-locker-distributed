@@ -8,7 +8,14 @@
     <artifactId>parcel-locker</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>parcel-locker</name>
-    <packaging>war</packaging>
+    <modules>
+        <module>core</module>
+        <module>rest</module>
+        <module>infrastructure</module>
+        <module>ports</module>
+        <module>commons</module>
+    </modules>
+    <packaging>pom</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
