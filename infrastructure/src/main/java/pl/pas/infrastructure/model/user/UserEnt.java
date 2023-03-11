@@ -19,7 +19,7 @@ import pl.pas.infrastructure.model.EntityModel;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-public abstract class User extends EntityModel {
+public abstract class UserEnt extends EntityModel {
 
     private String firstName;
     private String lastName;
@@ -27,7 +27,7 @@ public abstract class User extends EntityModel {
     private String telNumber;
     private boolean active;
 
-    protected User(String firstName, String lastName, String telNumber) {
+    protected UserEnt(String firstName, String lastName, String telNumber) {
         validateName(firstName);
         validateName(lastName);
         validateTelNumber(telNumber);

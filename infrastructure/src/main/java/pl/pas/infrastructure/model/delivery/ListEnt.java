@@ -11,11 +11,11 @@ import java.math.RoundingMode;
 @Entity
 @NoArgsConstructor
 @DiscriminatorColumn(name = "LIST")
-public class List extends Package {
+public class ListEnt extends PackageEnt {
 
     private boolean priority;
 
-    public List(BigDecimal basePrice, boolean priority) {
+    public ListEnt(BigDecimal basePrice, boolean priority) {
         super(basePrice);
 
         this.priority = priority;

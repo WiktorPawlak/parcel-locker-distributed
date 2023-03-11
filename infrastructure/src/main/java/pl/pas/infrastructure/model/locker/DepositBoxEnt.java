@@ -5,22 +5,22 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.EqualsAndHashCode;
 import pl.pas.infrastructure.model.EntityModel;
-import pl.pas.infrastructure.model.delivery.Delivery;
+import pl.pas.infrastructure.model.delivery.DeliveryEnt;
 
 import java.util.UUID;
 
 @Entity
 @EqualsAndHashCode
-public class DepositBox extends EntityModel {
+public class DepositBoxEnt extends EntityModel {
 
     @ManyToOne
     @JoinColumn(name = "delivery_id")
-    private Delivery delivery;
+    private DeliveryEnt delivery;
     private boolean isEmpty;
     private String accessCode;
     private String telNumber;
 
-    public DepositBox() {
+    public DepositBoxEnt() {
         isEmpty = true;
         telNumber = "";
         accessCode = "";
@@ -33,7 +33,7 @@ public class DepositBox extends EntityModel {
             && !telNumber.isEmpty();
     }
 
-    public void putIn(Delivery delivery, String telNumber, String accessCode) {
+    public void putIn(DeliveryEnt delivery, String telNumber, String accessCode) {
         this.accessCode = accessCode;
         this.isEmpty = false;
         this.telNumber = telNumber;
@@ -47,7 +47,7 @@ public class DepositBox extends EntityModel {
         this.delivery = null;
     }
 
-    public Delivery getDelivery() {
+    public DeliveryEnt getDelivery() {
         return delivery;
     }
 

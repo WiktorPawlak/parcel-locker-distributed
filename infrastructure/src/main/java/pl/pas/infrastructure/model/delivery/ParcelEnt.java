@@ -17,14 +17,14 @@ import java.util.List;
 @Getter
 @Setter
 @DiscriminatorColumn(name = "PARCEL")
-public class Parcel extends Package {
+public class ParcelEnt extends PackageEnt {
     private double width;
     private double length;
     private double height;
     private double weight;
     private boolean fragile;
 
-    public Parcel(BigDecimal basePrice, double width, double length, double height, double weight, boolean fragile) {
+    public ParcelEnt(BigDecimal basePrice, double width, double length, double height, double weight, boolean fragile) {
         super(basePrice);
 
         validateSize(width);

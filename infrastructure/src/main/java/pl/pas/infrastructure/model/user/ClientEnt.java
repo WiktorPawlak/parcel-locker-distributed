@@ -3,18 +3,25 @@ package pl.pas.infrastructure.model.user;
 
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+
 @Entity
-@DiscriminatorValue("ADMIN")
 @NoArgsConstructor
+@AllArgsConstructor
+@DiscriminatorValue("CLIENT")
 @EqualsAndHashCode(callSuper = true)
-public class Administrator extends User {
+public class ClientEnt extends UserEnt {
 
     @Builder
-    public Administrator(final String firstName, final String lastName, final String telNumber) {
+    public ClientEnt(final String firstName, final String lastName, final String telNumber) {
         super(firstName, lastName, telNumber);
+    }
+
+    public ClientEnt(String firstName, String lastName, String telNumber, boolean active) {
+        super()
     }
 }

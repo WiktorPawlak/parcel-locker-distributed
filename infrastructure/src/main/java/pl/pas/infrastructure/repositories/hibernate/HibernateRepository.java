@@ -4,8 +4,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import pl.pas.core.applicationmodel.exceptions.RepositoryException;
-import pl.pas.core.applicationmodel.model.EntityModel;
+import pl.pas.infrastructure.model.EntityModel;
+import pl.pas.infrastructure.exceptions.RepositoryException;
 
 import java.util.List;
 import java.util.UUID;

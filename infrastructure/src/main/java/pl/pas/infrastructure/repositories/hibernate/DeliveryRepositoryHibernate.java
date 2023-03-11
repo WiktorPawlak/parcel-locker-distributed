@@ -2,10 +2,9 @@ package pl.pas.infrastructure.repositories.hibernate;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceException;
-import pl.pas.core.applicationmodel.exceptions.RepositoryException;
-import pl.pas.core.applicationmodel.model.delivery.Delivery;
-import pl.pas.core.applicationmodel.model.user.User;
-import pl.pas.ports.outcoming.DeliveryRepository;
+import pl.pas.infrastructure.exceptions.RepositoryException;
+import pl.pas.infrastructure.model.delivery.DeliveryEnt;
+import pl.pas.infrastructure.model.user.UserEnt;
 
 import java.util.List;
 import java.util.UUID;
@@ -13,10 +12,10 @@ import java.util.UUID;
 import static pl.pas.infrastructure.repositories.hibernate.EntityManagerUtil.getEntityManager;
 
 
-public class DeliveryRepositoryHibernate extends HibernateRepository<Delivery> implements DeliveryRepository {
+public class DeliveryRepositoryHibernate extends HibernateRepository<DeliveryEnt> {
 
     public DeliveryRepositoryHibernate() {
-        super(Delivery.class);
+        super(DeliveryEnt.class);
     }
 
     public void archive(UUID id) {
@@ -25,7 +24,7 @@ public class DeliveryRepositoryHibernate extends HibernateRepository<Delivery> i
 
             entityManager.getTransaction().begin();
 
-            Delivery delivery = entityManager.find(Delivery.class, id);
+            DeliveryEnt delivery = entityManager.find(DeliveryEnt.class, id);
             delivery.setArchived(true);
 
             entityManager.getTransaction().commit();
@@ -34,17 +33,17 @@ public class DeliveryRepositoryHibernate extends HibernateRepository<Delivery> i
         }
     }
 
-    public List<Delivery> findByUser(User user) {
+    public List<DeliveryEnt> findByUser(UserEnt user) {
         return findBy(delivery -> delivery.getReceiver().equals(user));
     }
 
     @Override
-    public List<Delivery> findReceivedByClient(User user) {
+    public List<DeliveryEnt> findReceivedByClient(UserEnt user) {
         return findBy(delivery -> delivery.getReceiver().equals(user) && delivery.isArchived());
     }
 
     @Override
-    public List<Delivery> findCurrentByClient(User user) {
+    public List<DeliveryEnt> findCurrentByClient(UserEnt user) {
         return findBy(delivery -> delivery.getReceiver().equals(user) && !delivery.isArchived());
     }
 }

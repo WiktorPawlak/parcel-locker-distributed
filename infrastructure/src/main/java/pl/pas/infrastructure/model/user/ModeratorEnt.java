@@ -7,15 +7,14 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-
 @Entity
+@DiscriminatorValue("MODERATOR")
 @NoArgsConstructor
-@DiscriminatorValue("CLIENT")
 @EqualsAndHashCode(callSuper = true)
-public class Client extends User {
+public class ModeratorEnt extends UserEnt {
 
     @Builder
-    public Client(final String firstName, final String lastName, final String telNumber) {
+    public ModeratorEnt(final String firstName, final String lastName, final String telNumber) {
         super(firstName, lastName, telNumber);
     }
 }

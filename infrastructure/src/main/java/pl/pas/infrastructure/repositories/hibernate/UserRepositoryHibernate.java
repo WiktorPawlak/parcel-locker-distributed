@@ -2,9 +2,8 @@ package pl.pas.infrastructure.repositories.hibernate;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceException;
-import pl.pas.core.applicationmodel.exceptions.RepositoryException;
-import pl.pas.core.applicationmodel.model.user.User;
-import pl.pas.ports.outcoming.UserRepository;
+import pl.pas.infrastructure.exceptions.RepositoryException;
+import pl.pas.infrastructure.model.user.UserEnt;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,10 +11,10 @@ import java.util.UUID;
 
 import static pl.pas.infrastructure.repositories.hibernate.EntityManagerUtil.getEntityManager;
 
-public class UserRepositoryHibernate extends HibernateRepository<User> implements UserRepository {
+public class UserRepositoryHibernate extends HibernateRepository<UserEnt> {
 
     public UserRepositoryHibernate() {
-        super(User.class);
+        super(UserEnt.class);
     }
 
     public void archive(UUID id) {
@@ -23,7 +22,7 @@ public class UserRepositoryHibernate extends HibernateRepository<User> implement
             EntityManager entityManager = getEntityManager();
 
             entityManager.getTransaction().begin();
-            entityManager.find(User.class, id).setActive(false);
+            entityManager.find(UserEnt.class, id).setActive(false);
             entityManager.getTransaction().commit();
 
         } catch (PersistenceException e) {
@@ -31,25 +30,25 @@ public class UserRepositoryHibernate extends HibernateRepository<User> implement
         }
     }
 
-    public Optional<User> findByTelNumber(String telNumber) {
-        return Optional.of((User) getEntityManager()
-            .createQuery("select u from User u where u.telNumber = :telNumber")
+    public Optional<UserEnt> findByTelNumber(String telNumber) {
+        return Optional.of((UserEnt) getEntityManager()
+            .createQuery("select u from UserEnt u where u.telNumber = :telNumber")
             .setParameter("telNumber", telNumber)
             .getSingleResult());
     }
 
-    public List<User> findByTelNumberPart(String telNumberPart) {
+    public List<UserEnt> findByTelNumberPart(String telNumberPart) {
         String wildCardTelNumber = "%" + telNumberPart + "%";
-        return (List<User>) getEntityManager()
-            .createQuery("select u from User u where u.telNumber like :wildCardTelNumber")
+        return (List<UserEnt>) getEntityManager()
+            .createQuery("select u from UserEnt u where u.telNumber like :wildCardTelNumber")
             .setParameter("wildCardTelNumber", wildCardTelNumber)
             .getResultList();
     }
 
     @Override
-    public Optional<User> findUserById(final UUID uuid) {
-        return Optional.of((User) getEntityManager()
-            .createQuery("select u from User u where u.id = :uuid")
+    public Optional<UserEnt> findUserById(final UUID uuid) {
+        return Optional.of((UserEnt) getEntityManager()
+            .createQuery("select u from UserEnt u where u.id = :uuid")
             .setParameter("uuid", uuid)
             .getSingleResult());
     }

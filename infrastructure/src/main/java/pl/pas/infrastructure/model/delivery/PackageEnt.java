@@ -8,10 +8,10 @@ import java.math.BigDecimal;
 
 @Entity
 @NoArgsConstructor
-public abstract class Package extends EntityModel {
+public abstract class PackageEnt extends EntityModel {
     public BigDecimal basePrice;
 
-    public Package(BigDecimal basePrice) {
+    public PackageEnt(BigDecimal basePrice) {
         this.basePrice = basePrice;
     }
 

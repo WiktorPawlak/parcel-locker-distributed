@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import pl.pas.core.applicationmodel.exceptions.LockerException;
 import pl.pas.infrastructure.model.EntityModel;
-import pl.pas.infrastructure.model.delivery.Delivery;
+import pl.pas.infrastructure.model.delivery.DeliveryEnt;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,15 +19,15 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor
 @EqualsAndHashCode
-public class Locker extends EntityModel {
+public class LockerEnt extends EntityModel {
 
     private String identityNumber;
     private String address;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
-    private List<DepositBox> depositBoxes;
+    private List<DepositBoxEnt> depositBoxes;
 
-    public Locker(String identityNumber, String address, int boxAmount) {
+    public LockerEnt(String identityNumber, String address, int boxAmount) {
         try {
             if (boxAmount <= 0)
                 throw new LockerException("Locker with 0 boxes can not be created!");
@@ -39,13 +39,13 @@ public class Locker extends EntityModel {
         this.address = address;
         depositBoxes = new ArrayList<>();
         for (int i = 0; i < boxAmount; i++) {
-            depositBoxes.add(new DepositBox());
+            depositBoxes.add(new DepositBoxEnt());
         }
     }
 
-    public UUID putIn(Delivery delivery, String telNumber, String accessCode) {
+    public UUID putIn(DeliveryEnt delivery, String telNumber, String accessCode) {
 
-        for (DepositBox depositBox : depositBoxes) {
+        for (DepositBoxEnt depositBox : depositBoxes) {
             if (depositBox.isEmpty()) {
                 depositBox.putIn(delivery, telNumber, accessCode);
                 return depositBox.getId();
@@ -55,10 +55,10 @@ public class Locker extends EntityModel {
             delivery.getId() + " into locker " + this.getIdentityNumber() + ".");
     }
 
-    public Delivery takeOut(String telNumber, String code) {
-        for (DepositBox depositBox : depositBoxes) {
+    public DeliveryEnt takeOut(String telNumber, String code) {
+        for (DepositBoxEnt depositBox : depositBoxes) {
             if (depositBox.canAccess(code, telNumber)) {
-                Delivery takenOutDelivery = depositBox.getDelivery();
+                DeliveryEnt takenOutDelivery = depositBox.getDelivery();
                 depositBox.clean();
                 return takenOutDelivery;
             }
@@ -71,7 +71,7 @@ public class Locker extends EntityModel {
 
     public int countEmpty() {
         int counter = 0;
-        for (DepositBox depositBox : depositBoxes) {
+        for (DepositBoxEnt depositBox : depositBoxes) {
             if (depositBox.isEmpty()) {
                 counter++;
             }
@@ -79,8 +79,8 @@ public class Locker extends EntityModel {
         return counter;
     }
 
-    public DepositBox getDepositBox(UUID id) {
-        for (DepositBox depositBox : depositBoxes) {
+    public DepositBoxEnt getDepositBox(UUID id) {
+        for (DepositBoxEnt depositBox : depositBoxes) {
             if (depositBox.getId().equals(id)) {
                 return depositBox;
             }

@@ -14,8 +14,8 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import pl.pas.infrastructure.model.EntityModel;
-import pl.pas.infrastructure.model.locker.Locker;
-import pl.pas.infrastructure.model.user.Client;
+import pl.pas.infrastructure.model.locker.LockerEnt;
+import pl.pas.infrastructure.model.user.ClientEnt;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -29,92 +29,92 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-public class Delivery extends EntityModel {
+public class DeliveryEnt extends EntityModel {
 
     @EqualsAndHashCode.Exclude
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "shipper_id")
-    private Client shipper;
+    private ClientEnt shipper;
 
     @EqualsAndHashCode.Exclude
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "receiver_id")
-    private Client receiver;
-    private DeliveryStatus status;
+    private ClientEnt receiver;
+    private DeliveryStatusEnt status;
 
     @EqualsAndHashCode.Exclude
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "pack_ID")
-    private Package pack;
+    private PackageEnt pack;
 
     @EqualsAndHashCode.Exclude
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "locker_id")
-    private Locker locker;
+    private LockerEnt locker;
 
     private LocalDateTime allocationStart;
     private LocalDateTime allocationStop;
     private boolean isArchived;
 
-    public Delivery(BigDecimal basePrice,
-                    double width,
-                    double length,
-                    double height,
-                    double weight,
-                    boolean isFragile,
-                    Client shipper,
-                    Client receiver,
-                    Locker locker) {
+    public DeliveryEnt(BigDecimal basePrice,
+                       double width,
+                       double length,
+                       double height,
+                       double weight,
+                       boolean isFragile,
+                       ClientEnt shipper,
+                       ClientEnt receiver,
+                       LockerEnt locker) {
         this(shipper, receiver, locker);
 
-        this.pack = new Parcel(basePrice, width, length, height, weight, isFragile);
+        this.pack = new ParcelEnt(basePrice, width, length, height, weight, isFragile);
     }
 
-    public Delivery(BigDecimal basePrice,
-                    boolean isPriority,
-                    Client shipper,
-                    Client receiver,
-                    Locker locker) {
+    public DeliveryEnt(BigDecimal basePrice,
+                       boolean isPriority,
+                       ClientEnt shipper,
+                       ClientEnt receiver,
+                       LockerEnt locker) {
         this(shipper, receiver, locker);
 
-        this.pack = new List(basePrice, isPriority);
+        this.pack = new ListEnt(basePrice, isPriority);
     }
 
-    private Delivery(Client shipper,
-                     Client receiver,
-                     Locker locker) {
+    private DeliveryEnt(ClientEnt shipper,
+                        ClientEnt receiver,
+                        LockerEnt locker) {
         this.id = UUID.randomUUID();
         this.shipper = shipper;
         this.receiver = receiver;
         this.locker = locker;
-        this.status = DeliveryStatus.READY_TO_SHIP;
+        this.status = DeliveryStatusEnt.READY_TO_SHIP;
     }
 
     public BigDecimal getCost() {
         return pack.getCost();
     }
 
-    public Client getShipper() {
+    public ClientEnt getShipper() {
         return shipper;
     }
 
-    public Client getReceiver() {
+    public ClientEnt getReceiver() {
         return receiver;
     }
 
-    public DeliveryStatus getStatus() {
+    public DeliveryStatusEnt getStatus() {
         return status;
     }
 
-    public void setStatus(DeliveryStatus status) {
+    public void setStatus(DeliveryStatusEnt status) {
         this.status = status;
     }
 
-    public Package getPack() {
+    public PackageEnt getPack() {
         return pack;
     }
 
-    public Locker getLocker() {
+    public LockerEnt getLocker() {
         return locker;
     }
 

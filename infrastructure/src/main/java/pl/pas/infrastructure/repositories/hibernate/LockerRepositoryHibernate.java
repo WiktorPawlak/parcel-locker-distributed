@@ -1,17 +1,16 @@
 package pl.pas.infrastructure.repositories.hibernate;
 
 
-import pl.pas.core.applicationmodel.model.locker.Locker;
-import pl.pas.ports.outcoming.LockerRepository;
+import pl.pas.infrastructure.model.locker.LockerEnt;
 
 import java.util.Optional;
 
-public class LockerRepositoryHibernate extends HibernateRepository<Locker> implements LockerRepository {
+public class LockerRepositoryHibernate extends HibernateRepository<LockerEnt> {
     public LockerRepositoryHibernate() {
-        super(Locker.class);
+        super(LockerEnt.class);
     }
 
-    public Optional<Locker> findByIdentityNumber(String identityNumber) {
+    public Optional<LockerEnt> findByIdentityNumber(String identityNumber) {
         return findBy(locker -> locker.getIdentityNumber().equals(identityNumber)).stream().findFirst();
     }
 }
