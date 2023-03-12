@@ -1,34 +1,38 @@
 package pl.pas.infrastructure.repositories.hibernate;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.List;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.OptimisticLockException;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.RollbackException;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import pl.pas.core.applicationmodel.model.user.Client;
-
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import pl.pas.infrastructure.adapters.mappers.ClientMapper;
+import pl.pas.infrastructure.model.user.ClientEnt;
+import pl.pas.infrastructure.repositories.config.TestsConfig;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class RepositoryTest extends TestsConfig {
 
-    private final HibernateRepository<User> clientRepository = new HibernateRepository<>(User.class);
-    private User c1;
-    private User c2;
+    private final HibernateRepository<ClientEnt> clientRepository = new HibernateRepository<>(ClientEnt.class);
+    private ClientEnt c1;
+    private ClientEnt c2;
 
     @BeforeEach
     void setup() {
-        c1 = new Client("Tadeusz", "Kaczmarski", "606123654");
-        c2 = new Client("Pawel", "Tubiel", "606444654");
+        c1 = ClientMapper.mapToEntity(new Client("Tadeusz", "Kaczmarski", "606123654"));
+        c2 = ClientMapper.mapToEntity(new Client("Pawel", "Tubiel", "606444654"));
     }
 
     @AfterEach
@@ -73,8 +77,8 @@ class RepositoryTest extends TestsConfig {
 
         clientRepository.add(c1);
 
-        User user1 = em1.find(User.class, c1.getId());
-        User user2 = em2.find(User.class, c1.getId());
+        ClientEnt user1 = em1.find(ClientEnt.class, c1.getId());
+        ClientEnt user2 = em2.find(ClientEnt.class, c1.getId());
 
         em1.getTransaction().begin();
         user1.setActive(false);

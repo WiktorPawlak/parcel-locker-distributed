@@ -1,31 +1,35 @@
 package pl.pas.infrastructure.repositories.hibernate;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import pl.pas.core.applicationmodel.model.user.Client;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+
+import pl.pas.core.applicationmodel.model.user.Client;
+import pl.pas.infrastructure.adapters.mappers.ClientMapper;
+import pl.pas.infrastructure.model.user.ClientEnt;
+import pl.pas.infrastructure.repositories.config.TestsConfig;
+
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class UserRepositoryHibernateTest extends TestsConfig {
-    private User c1;
-    private User c2;
-    private User c3;
-    private User c4;
-    private User c5;
+    private ClientEnt c1;
+    private ClientEnt c2;
+    private ClientEnt c3;
+    private ClientEnt c4;
+    private ClientEnt c5;
 
     @BeforeEach
     void setup() {
-        c1 = new Client("Maciej", "Nowak", "123452137");
-        c2 = new Client("Tadeusz", "Byk", "123456");
-        c3 = new Client("Krzysztof", "Ryk", "1234567");
-        c4 = new Client("Mariusz", "Kwik", "12345678");
-        c5 = new Client("Jakub", "Kowalski", "123456789");
+        c1 = ClientMapper.mapToEntity(new Client("Maciej", "Nowak", "123452137"));
+        c2 = ClientMapper.mapToEntity(new Client("Tadeusz", "Byk", "123456"));
+        c3 = ClientMapper.mapToEntity(new Client("Krzysztof", "Ryk", "1234567"));
+        c4 = ClientMapper.mapToEntity(new Client("Mariusz", "Kwik", "12345678"));
+        c5 = ClientMapper.mapToEntity(new Client("Jakub", "Kowalski", "123456789"));
     }
 
     @AfterEach

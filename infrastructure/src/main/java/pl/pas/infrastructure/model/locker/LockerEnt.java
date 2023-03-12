@@ -1,5 +1,8 @@
 package pl.pas.infrastructure.model.locker;
 
+import java.util.List;
+import java.util.UUID;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -8,13 +11,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import pl.pas.core.applicationmodel.exceptions.LockerException;
 import pl.pas.infrastructure.model.EntityModel;
-import pl.pas.infrastructure.model.delivery.DeliveryEnt;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 @Slf4j
 @Entity

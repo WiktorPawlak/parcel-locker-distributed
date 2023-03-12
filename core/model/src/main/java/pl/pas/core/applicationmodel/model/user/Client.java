@@ -1,12 +1,13 @@
 package pl.pas.core.applicationmodel.model.user;
 
 
+import java.util.UUID;
+
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import pl.pas.core.applicationmodel.exceptions.ClientException;
-
-import java.util.UUID;
 
 
 @NoArgsConstructor
@@ -20,6 +21,7 @@ public class Client {
     private String telNumber;
     private boolean active;
 
+    @Builder
     public Client(String firstName, String lastName, String telNumber) {
         validateName(firstName);
         validateName(lastName);

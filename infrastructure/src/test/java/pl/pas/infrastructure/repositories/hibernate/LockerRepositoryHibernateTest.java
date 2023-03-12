@@ -1,20 +1,24 @@
 package pl.pas.infrastructure.repositories.hibernate;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import pl.pas.core.applicationmodel.model.locker.Locker;
-
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+
+import pl.pas.core.applicationmodel.model.locker.Locker;
+import pl.pas.infrastructure.adapters.mappers.LockerMapper;
+import pl.pas.infrastructure.model.locker.LockerEnt;
+import pl.pas.infrastructure.repositories.config.TestsConfig;
+
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class LockerRepositoryHibernateTest extends TestsConfig {
-    private Locker l1;
+    private LockerEnt l1;
 
     @BeforeAll
     void setup() {
-        l1 = new Locker("LDZ01", "Gawronska 12, Lodz 12-123", 10);
+        l1 = LockerMapper.mapToEntity(new Locker("LDZ01", "Gawronska 12, Lodz 12-123", 10));
         lockerRepository.add(l1);
     }
 

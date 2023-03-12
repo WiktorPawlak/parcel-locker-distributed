@@ -1,7 +1,5 @@
 package pl.pas.rest.config;
 
-import io.restassured.builder.RequestSpecBuilder;
-import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.TestInstance;
 import org.testcontainers.containers.GenericContainer;
@@ -12,14 +10,19 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 import org.testcontainers.utility.MountableFile;
 
-import static pl.pas.rest.config.PostgresContainerInitializer.DB_NAME;
-import static pl.pas.rest.config.PostgresContainerInitializer.DB_PASSWORD;
-import static pl.pas.rest.config.PostgresContainerInitializer.DB_USERNAME;
-import static pl.pas.rest.config.PostgresContainerInitializer.POSTGRES_IMAGE;
+import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.specification.RequestSpecification;
 
 @Testcontainers
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class JakartaContainerInitializer {
+
+    public static final String DB_NAME = "database";
+    public static final String DB_USERNAME = "admin";
+    public static final String DB_PASSWORD = "admin";
+    public static final DockerImageName POSTGRES_IMAGE = DockerImageName
+        .parse("postgres")
+        .withTag("15.0-alpine");
 
     private static final int PORT = 8080;
     private static final String PACKAGE_NAME = "parcel-locker-1.0-SNAPSHOT.war";
