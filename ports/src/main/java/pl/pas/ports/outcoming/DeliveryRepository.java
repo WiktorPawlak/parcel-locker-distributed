@@ -1,7 +1,7 @@
 package pl.pas.ports.outcoming;
 
 import pl.pas.core.applicationmodel.model.delivery.Delivery;
-import pl.pas.core.applicationmodel.model.user.User;
+import pl.pas.core.applicationmodel.model.user.Client;
 
 import java.util.List;
 import java.util.UUID;
@@ -15,9 +15,9 @@ public interface DeliveryRepository {
     void update(Delivery delivery);
 
     List<Delivery> findAll();
-    List<Delivery> findReceivedByClient(User user);
-    List<Delivery> findCurrentByClient(User user);
+    List<Delivery> findReceivedByClient(Client user);
+    List<Delivery> findCurrentByClient(Client user);
 
-    List<Delivery> findByUser(User user);
+    List<Delivery> findByUser(Client user);
 
 }

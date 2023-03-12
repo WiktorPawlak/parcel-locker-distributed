@@ -4,7 +4,9 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import pl.pas.core.applicationmodel.model.delivery.Delivery;
@@ -16,15 +18,15 @@ import java.util.List;
 import java.util.UUID;
 
 @Slf4j
-@Entity
 @NoArgsConstructor
 @EqualsAndHashCode
-public class Locker extends EntityModel {
+@Getter
+@AllArgsConstructor
+public class Locker {
 
+    private UUID id;
     private String identityNumber;
     private String address;
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
     private List<DepositBox> depositBoxes;
 
     public Locker(String identityNumber, String address, int boxAmount) {
@@ -86,13 +88,5 @@ public class Locker extends EntityModel {
             }
         }
         return null;
-    }
-
-    public String getIdentityNumber() {
-        return identityNumber;
-    }
-
-    public String getAddress() {
-        return address;
     }
 }

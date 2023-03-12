@@ -1,16 +1,12 @@
 package pl.pas.core.applicationmodel.model.delivery;
 
-import jakarta.persistence.DiscriminatorColumn;
-import jakarta.persistence.Entity;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
 import pl.pas.core.applicationmodel.configuration.ListConfig;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-@Entity
-@NoArgsConstructor
-@DiscriminatorColumn(name = "LIST")
+@Getter
 public class List extends Package {
 
     private boolean priority;

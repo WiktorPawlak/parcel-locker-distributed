@@ -26,6 +26,14 @@ public class DepositBoxEnt extends EntityModel {
         accessCode = "";
     }
 
+    public DepositBoxEnt(UUID id, DeliveryEnt delivery, boolean isEmpty, String accessCode, String telNumber) {
+        super(id);
+        this.delivery = delivery;
+        this.isEmpty = isEmpty;
+        this.accessCode = accessCode;
+        this.telNumber = telNumber;
+    }
+
     public boolean canAccess(String code, String telNumber) {
         return code.equals(this.accessCode)
             && telNumber.equals(this.telNumber)

@@ -16,7 +16,6 @@ import pl.pas.core.applicationmodel.model.delivery.DeliveryStatus;
 import pl.pas.core.applicationmodel.model.locker.Locker;
 import pl.pas.ports.outcoming.LockerRepository;
 import pl.pas.core.applicationmodel.model.user.Client;
-import pl.pas.core.applicationmodel.model.user.User;
 import pl.pas.ports.outcoming.UserRepository;
 import pl.pas.ports.incoming.DeliveryService;
 
@@ -138,7 +137,7 @@ public class DeliveryServiceImpl implements DeliveryService {
     }
 
     @Override
-    public BigDecimal checkClientShipmentBalance(User user) {
+    public BigDecimal checkClientShipmentBalance(Client user) {
         BigDecimal balance = BigDecimal.ZERO;
         if (user == null) throw new DeliveryManagerException("User is a nullptr!");
         for (Delivery delivery : deliveryRepository.findAll()) {
@@ -149,7 +148,7 @@ public class DeliveryServiceImpl implements DeliveryService {
     }
 
     @Override
-    public List<Delivery> getAllClientDeliveries(User user) {
+    public List<Delivery> getAllClientDeliveries(Client user) {
         return deliveryRepository.findByUser(user);
     }
 
@@ -178,7 +177,7 @@ public class DeliveryServiceImpl implements DeliveryService {
         return deliveryRepository.get(id);
     }
 
-    private void validateClient(User user) {
+    private void validateClient(Client user) {
         if (!user.isActive()) throw new DeliveryManagerException("User account is inactive.");
     }
 

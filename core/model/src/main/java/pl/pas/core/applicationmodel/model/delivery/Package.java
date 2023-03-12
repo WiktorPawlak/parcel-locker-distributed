@@ -1,16 +1,13 @@
 package pl.pas.core.applicationmodel.model.delivery;
 
-import java.math.BigDecimal;
-
-import jakarta.persistence.Entity;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import pl.pas.core.applicationmodel.model.EntityModel;
 
-@Entity
-@NoArgsConstructor
-public abstract class Package extends EntityModel {
+import java.math.BigDecimal;
+import java.util.UUID;
+
+@Getter
+public abstract class Package {
+    private UUID id;
     public BigDecimal basePrice;
 
     public Package(BigDecimal basePrice) {

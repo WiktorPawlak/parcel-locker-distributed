@@ -5,7 +5,6 @@ import pl.pas.core.applicationmodel.exceptions.LockerManagerException;
 import pl.pas.core.applicationmodel.model.delivery.Delivery;
 import pl.pas.core.applicationmodel.model.locker.Locker;
 import pl.pas.core.applicationmodel.model.user.Client;
-import pl.pas.core.applicationmodel.model.user.User;
 
 import java.math.BigDecimal;
 

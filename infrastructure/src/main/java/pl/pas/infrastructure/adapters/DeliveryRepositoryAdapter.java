@@ -1,9 +1,10 @@
-package pl.pas.ports.adapters;
+package pl.pas.infrastructure.adapters;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import pl.pas.core.applicationmodel.model.delivery.Delivery;
-import pl.pas.core.applicationmodel.model.user.User;
+import pl.pas.core.applicationmodel.model.user.Client;
+import pl.pas.infrastructure.model.user.ClientEnt;
 import pl.pas.infrastructure.repositories.hibernate.DeliveryRepositoryHibernate;
 import pl.pas.ports.outcoming.DeliveryRepository;
 
@@ -37,17 +38,18 @@ public class DeliveryRepositoryAdapter implements DeliveryRepository {
     }
 
     @Override
-    public List<Delivery> findReceivedByClient(User user) {
+    public List<Delivery> findReceivedByClient(Client user) {
         return null;
     }
 
     @Override
-    public List<Delivery> findCurrentByClient(User user) {
+    public List<Delivery> findCurrentByClient(Client user) {
         return null;
     }
 
     @Override
-    public List<Delivery> findByUser(User user) {
+    public List<Delivery> findByUser(Client user) {
         return null;
     }
+
 }

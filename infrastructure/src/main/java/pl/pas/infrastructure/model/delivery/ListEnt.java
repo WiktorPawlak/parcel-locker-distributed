@@ -2,6 +2,7 @@ package pl.pas.infrastructure.model.delivery;
 
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Entity;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import pl.pas.core.applicationmodel.configuration.ListConfig;
 
@@ -9,6 +10,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 @Entity
+@Getter
 @NoArgsConstructor
 @DiscriminatorColumn(name = "LIST")
 public class ListEnt extends PackageEnt {

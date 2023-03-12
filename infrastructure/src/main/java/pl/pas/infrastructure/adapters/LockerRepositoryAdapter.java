@@ -1,4 +1,4 @@
-package pl.pas.ports.adapters;
+package pl.pas.infrastructure.adapters;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;

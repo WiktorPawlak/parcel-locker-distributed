@@ -1,9 +1,6 @@
 package pl.pas.core.applicationmodel.model.delivery;
 
-import jakarta.persistence.DiscriminatorColumn;
-import jakarta.persistence.Entity;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.pas.core.applicationmodel.configuration.ParcelConfig;
 import pl.pas.core.applicationmodel.exceptions.ParcelException;
@@ -12,11 +9,8 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
-@Entity
-@NoArgsConstructor
 @Getter
 @Setter
-@DiscriminatorColumn(name = "PARCEL")
 public class Parcel extends Package {
     private double width;
     private double length;

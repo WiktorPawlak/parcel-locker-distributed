@@ -1,55 +1,33 @@
 package pl.pas.core.applicationmodel.model.delivery;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.UUID;
-
-import jakarta.persistence.Access;
-import jakarta.persistence.AccessType;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.DiscriminatorColumn;
-import jakarta.persistence.DiscriminatorType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import pl.pas.core.applicationmodel.model.EntityModel;
 import pl.pas.core.applicationmodel.model.locker.Locker;
 import pl.pas.core.applicationmodel.model.user.Client;
 
-@Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "package_type",
-    discriminatorType = DiscriminatorType.INTEGER)
-@Access(AccessType.FIELD)
-@AllArgsConstructor
-@NoArgsConstructor
-@EqualsAndHashCode
-public class Delivery extends EntityModel {
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
+@AllArgsConstructor
+@Data
+@EqualsAndHashCode
+public class Delivery {
+
+    private UUID id;
     @EqualsAndHashCode.Exclude
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "shipper_id")
     private Client shipper;
 
     @EqualsAndHashCode.Exclude
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "receiver_id")
     private Client receiver;
     private DeliveryStatus status;
 
     @EqualsAndHashCode.Exclude
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "pack_ID")
     private Package pack;
 
     @EqualsAndHashCode.Exclude
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "locker_id")
     private Locker locker;
 
     private LocalDateTime allocationStart;
@@ -83,7 +61,6 @@ public class Delivery extends EntityModel {
     private Delivery(Client shipper,
                      Client receiver,
                      Locker locker) {
-        this.id = UUID.randomUUID();
         this.shipper = shipper;
         this.receiver = receiver;
         this.locker = locker;

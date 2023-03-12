@@ -11,7 +11,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import pl.pas.core.applicationmodel.model.user.Client;
-import pl.pas.core.applicationmodel.model.user.User;
 
 import java.util.List;
 

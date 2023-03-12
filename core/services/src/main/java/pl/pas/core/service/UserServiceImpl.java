@@ -9,7 +9,6 @@ import jakarta.inject.Inject;
 import lombok.NoArgsConstructor;
 import pl.pas.core.applicationmodel.exceptions.ClientManagerException;
 import pl.pas.core.applicationmodel.model.user.Client;
-import pl.pas.core.applicationmodel.model.user.User;
 import pl.pas.ports.outcoming.UserRepository;
 import pl.pas.ports.incoming.UserService;
 
@@ -27,7 +26,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUser(String telNumber) {
+    public Client getUser(String telNumber) {
         validateIfEmpty(telNumber);
 
         var client = clientRepository.findByTelNumber(telNumber);
@@ -40,28 +39,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getUsersByPartialTelNumber(String telNumberPart) {
+    public List<Client> getUsersByPartialTelNumber(String telNumberPart) {
         validateIfEmpty(telNumberPart);
 
         return clientRepository.findByTelNumberPart(telNumberPart);
     }
 
     @Override
-    public synchronized User registerClient(UUID operatorId, String firstName, String lastName, String telNumber) {
+    public synchronized Client registerClient(UUID operatorId, String firstName, String lastName, String telNumber) {
         validateIfEmpty(firstName, lastName, telNumber);
 
-        for (User user : clientRepository.findAll()) {
+        for (Client user : clientRepository.findAll()) {
             if (user.getTelNumber().equals(telNumber))
                 throw new ClientManagerException("Client with given telephone number already exits");
         }
 
-        User newUser = new Client(firstName, lastName, telNumber);
+        Client newUser = new Client(firstName, lastName, telNumber);
         clientRepository.add(newUser);
         return newUser;
     }
 
     @Override
-    public User unregisterClient(UUID operatorId, User user) {
+    public Client unregisterClient(UUID operatorId, Client user) {
         if (user == null)
             throw new ClientManagerException("Client is a null!");
 

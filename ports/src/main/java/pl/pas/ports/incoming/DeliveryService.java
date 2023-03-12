@@ -1,7 +1,7 @@
 package pl.pas.ports.incoming;
 
 import pl.pas.core.applicationmodel.model.delivery.Delivery;
-import pl.pas.core.applicationmodel.model.user.User;
+import pl.pas.core.applicationmodel.model.user.Client;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -30,9 +30,9 @@ public interface DeliveryService {
 
     void takeOutDelivery(UUID deliveryId, String receiverTel, String accessCode);
 
-    BigDecimal checkClientShipmentBalance(User user);
+    BigDecimal checkClientShipmentBalance(Client user);
 
-    List<Delivery> getAllClientDeliveries(User user);
+    List<Delivery> getAllClientDeliveries(Client user);
 
     List<Delivery> getAllCurrentClientDeliveries(String telNumber);
 

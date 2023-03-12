@@ -24,6 +24,10 @@ public abstract class EntityModel implements Serializable {
     @Version
     protected Long version;
 
+    public EntityModel(UUID id) {
+        this.id = id;
+    }
+
     public UUID getId() {
         return id;
     }

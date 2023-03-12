@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import pl.pas.core.applicationmodel.exceptions.LockerException;
@@ -19,6 +20,7 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor
 @EqualsAndHashCode
+@Getter
 public class LockerEnt extends EntityModel {
 
     private String identityNumber;
@@ -27,72 +29,10 @@ public class LockerEnt extends EntityModel {
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
     private List<DepositBoxEnt> depositBoxes;
 
-    public LockerEnt(String identityNumber, String address, int boxAmount) {
-        try {
-            if (boxAmount <= 0)
-                throw new LockerException("Locker with 0 boxes can not be created!");
-        } catch (LockerException e) {
-            log.error(e.getMessage());
-        }
-
+    public LockerEnt(UUID id, String identityNumber, String address, List<DepositBoxEnt> depositBoxes) {
+        super(id);
         this.identityNumber = identityNumber;
         this.address = address;
-        depositBoxes = new ArrayList<>();
-        for (int i = 0; i < boxAmount; i++) {
-            depositBoxes.add(new DepositBoxEnt());
-        }
-    }
-
-    public UUID putIn(DeliveryEnt delivery, String telNumber, String accessCode) {
-
-        for (DepositBoxEnt depositBox : depositBoxes) {
-            if (depositBox.isEmpty()) {
-                depositBox.putIn(delivery, telNumber, accessCode);
-                return depositBox.getId();
-            }
-        }
-        throw new LockerException("Not able to put package with id = " +
-            delivery.getId() + " into locker " + this.getIdentityNumber() + ".");
-    }
-
-    public DeliveryEnt takeOut(String telNumber, String code) {
-        for (DepositBoxEnt depositBox : depositBoxes) {
-            if (depositBox.canAccess(code, telNumber)) {
-                DeliveryEnt takenOutDelivery = depositBox.getDelivery();
-                depositBox.clean();
-                return takenOutDelivery;
-            }
-        }
-        throw new LockerException("Couldn't get any package out with access code: "
-            + code
-            + "and phone number: "
-            + telNumber);
-    }
-
-    public int countEmpty() {
-        int counter = 0;
-        for (DepositBoxEnt depositBox : depositBoxes) {
-            if (depositBox.isEmpty()) {
-                counter++;
-            }
-        }
-        return counter;
-    }
-
-    public DepositBoxEnt getDepositBox(UUID id) {
-        for (DepositBoxEnt depositBox : depositBoxes) {
-            if (depositBox.getId().equals(id)) {
-                return depositBox;
-            }
-        }
-        return null;
-    }
-
-    public String getIdentityNumber() {
-        return identityNumber;
-    }
-
-    public String getAddress() {
-        return address;
+        this.depositBoxes = depositBoxes;
     }
 }

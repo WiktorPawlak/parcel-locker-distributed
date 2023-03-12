@@ -5,8 +5,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.pas.core.applicationmodel.exceptions.ClientManagerException;
-import pl.pas.core.applicationmodel.model.user.Administrator;
-import pl.pas.core.applicationmodel.model.user.User;
 import pl.pas.ports.incoming.UserService;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

@@ -3,18 +3,23 @@ package pl.pas.core.applicationmodel.model.locker;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import pl.pas.core.applicationmodel.model.delivery.Delivery;
 import pl.pas.core.applicationmodel.model.EntityModel;
 
 import java.util.UUID;
 
-@Entity
-@EqualsAndHashCode
-public class DepositBox extends EntityModel {
 
-    @ManyToOne
-    @JoinColumn(name = "delivery_id")
+@EqualsAndHashCode
+@AllArgsConstructor
+@Getter
+@Setter
+public class DepositBox {
+
+    private UUID id;
     private Delivery delivery;
     private boolean isEmpty;
     private String accessCode;
@@ -47,31 +52,4 @@ public class DepositBox extends EntityModel {
         this.delivery = null;
     }
 
-    public Delivery getDelivery() {
-        return delivery;
-    }
-
-    public boolean isEmpty() {
-        return isEmpty;
-    }
-
-    public String getAccessCode() {
-        return accessCode;
-    }
-
-    public String getTelNumber() {
-        return telNumber;
-    }
-
-    public void setAccessCode(String accessCode) {
-        this.accessCode = accessCode;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public void setTelNumber(String telNumber) {
-        this.telNumber = telNumber;
-    }
 }

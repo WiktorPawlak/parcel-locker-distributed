@@ -56,6 +56,27 @@ public class DeliveryEnt extends EntityModel {
     private LocalDateTime allocationStop;
     private boolean isArchived;
 
+
+    public DeliveryEnt(UUID id,
+                       ClientEnt shipper,
+                       ClientEnt receiver,
+                       DeliveryStatusEnt status,
+                       PackageEnt pack,
+                       LockerEnt locker,
+                       LocalDateTime allocationStart,
+                       LocalDateTime allocationStop,
+                       boolean isArchived) {
+        super(id);
+        this.shipper = shipper;
+        this.receiver = receiver;
+        this.status = status;
+        this.pack = pack;
+        this.locker = locker;
+        this.allocationStart = allocationStart;
+        this.allocationStop = allocationStop;
+        this.isArchived = isArchived;
+    }
+
     public DeliveryEnt(BigDecimal basePrice,
                        double width,
                        double length,

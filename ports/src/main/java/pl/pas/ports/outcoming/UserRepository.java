@@ -1,21 +1,21 @@
 package pl.pas.ports.outcoming;
 
-import pl.pas.core.applicationmodel.model.user.User;
+import pl.pas.core.applicationmodel.model.user.Client;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 public interface UserRepository {
-    void add(User user);
+    void add(Client user);
 
     void archive(UUID clientId);
 
-    List<User> findAll();
+    List<Client> findAll();
 
-    Optional<User> findByTelNumber(String telNumber);
+    Optional<Client> findByTelNumber(String telNumber);
 
-    List<User> findByTelNumberPart(String telNumberPart);
+    List<Client> findByTelNumberPart(String telNumberPart);
 
-    Optional<User> findUserById(UUID uuid);
+    Optional<Client> findUserById(UUID uuid);
 }

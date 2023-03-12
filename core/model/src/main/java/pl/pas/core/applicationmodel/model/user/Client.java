@@ -1,21 +1,73 @@
 package pl.pas.core.applicationmodel.model.user;
 
 
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import pl.pas.core.applicationmodel.exceptions.ClientException;
+
+import java.util.UUID;
 
 
-@Entity
 @NoArgsConstructor
-@DiscriminatorValue("CLIENT")
-@EqualsAndHashCode(callSuper = true)
-public class Client extends User {
+@AllArgsConstructor
+@EqualsAndHashCode
+public class Client {
 
-    @Builder
-    public Client(final String firstName, final String lastName, final String telNumber) {
-        super(firstName, lastName, telNumber);
+    private UUID id;
+    private String firstName;
+    private String lastName;
+    private String telNumber;
+    private boolean active;
+
+    public Client(String firstName, String lastName, String telNumber) {
+        validateName(firstName);
+        validateName(lastName);
+        validateTelNumber(telNumber);
+
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.telNumber = telNumber;
+
+        active = true;
+    }
+
+    private void validateName(String name) {
+        if (name.isEmpty())
+            throw new ClientException("Empty lastName variable!");
+    }
+
+    private void validateTelNumber(String telNumber) {
+        if (telNumber.isEmpty())
+            throw new ClientException("Empty lastName variable!");
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getTelNumber() {
+        return telNumber;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    @Override
+    public String toString() {
+        return firstName + " " + lastName + " phone: " + telNumber + (active ? " Actual" : " Archived");
     }
 }

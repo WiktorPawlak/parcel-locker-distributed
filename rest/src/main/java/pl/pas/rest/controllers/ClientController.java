@@ -18,7 +18,7 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import pl.pas.core.applicationmodel.exceptions.ClientManagerException;
-import pl.pas.core.applicationmodel.model.user.User;
+import pl.pas.core.applicationmodel.model.user.Client;
 import pl.pas.ports.incoming.UserService;
 import pl.pas.rest.controllers.dto.ClientDto;
 
@@ -54,7 +54,7 @@ public class ClientController {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response registerClient(@QueryParam("operatorId") UUID operatorID, @Valid ClientDto clientDTO) {
         try {
-            User newUser = userService.registerClient(operatorID, clientDTO.firstName, clientDTO.lastName, clientDTO.telNumber);
+            Client newUser = userService.registerClient(operatorID, clientDTO.firstName, clientDTO.lastName, clientDTO.telNumber);
             return Response.status(Response.Status.CREATED).entity(newUser).build();
         } catch (ValidationException | NullPointerException e) {
             return Response.status(Response.Status.NOT_ACCEPTABLE).build();
@@ -68,8 +68,8 @@ public class ClientController {
     @Consumes({MediaType.TEXT_PLAIN})
     public Response unregisterClient(@QueryParam("operatorId") UUID operatorId, String telNumber) {
         try {
-            User user = userService.getUser(telNumber);
-            User unregisteredUser = userService.unregisterClient(operatorId, user);
+            Client user = userService.getUser(telNumber);
+            Client unregisteredUser = userService.unregisterClient(operatorId, user);
             return Response.ok().entity(unregisteredUser).build();
         } catch (ValidationException | NullPointerException e) {
             return Response.status(Response.Status.NOT_ACCEPTABLE).build();

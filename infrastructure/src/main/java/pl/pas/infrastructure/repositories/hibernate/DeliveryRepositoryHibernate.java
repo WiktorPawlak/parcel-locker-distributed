@@ -4,7 +4,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceException;
 import pl.pas.infrastructure.exceptions.RepositoryException;
 import pl.pas.infrastructure.model.delivery.DeliveryEnt;
-import pl.pas.infrastructure.model.user.UserEnt;
+import pl.pas.infrastructure.model.user.ClientEnt;
 
 import java.util.List;
 import java.util.UUID;
@@ -33,17 +33,15 @@ public class DeliveryRepositoryHibernate extends HibernateRepository<DeliveryEnt
         }
     }
 
-    public List<DeliveryEnt> findByUser(UserEnt user) {
+    public List<DeliveryEnt> findByUser(ClientEnt user) {
         return findBy(delivery -> delivery.getReceiver().equals(user));
     }
 
-    @Override
-    public List<DeliveryEnt> findReceivedByClient(UserEnt user) {
+    public List<DeliveryEnt> findReceivedByClient(ClientEnt user) {
         return findBy(delivery -> delivery.getReceiver().equals(user) && delivery.isArchived());
     }
 
-    @Override
-    public List<DeliveryEnt> findCurrentByClient(UserEnt user) {
+    public List<DeliveryEnt> findCurrentByClient(ClientEnt user) {
         return findBy(delivery -> delivery.getReceiver().equals(user) && !delivery.isArchived());
     }
 }
