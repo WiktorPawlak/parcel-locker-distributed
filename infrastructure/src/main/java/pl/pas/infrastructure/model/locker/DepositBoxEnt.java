@@ -3,6 +3,7 @@ package pl.pas.infrastructure.model.locker;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.EqualsAndHashCode;
 import pl.pas.infrastructure.model.EntityModel;
 import pl.pas.infrastructure.model.delivery.DeliveryEnt;
@@ -10,6 +11,7 @@ import pl.pas.infrastructure.model.delivery.DeliveryEnt;
 import java.util.UUID;
 
 @Entity
+@Table(name = "DepositBoxes")
 @EqualsAndHashCode
 public class DepositBoxEnt extends EntityModel {
 

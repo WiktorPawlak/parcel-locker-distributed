@@ -13,9 +13,9 @@ public class HelloApplication extends Application {
     @Inject
     private UserRepository userRepository;
 
-    @PostConstruct
-    void init() {
-        Client admin = new Client("admin", "admin", "admin");
-        userRepository.add(admin);
-    }
+//    @PostConstruct
+//    void init() {
+//        Client admin = new Client("admin", "admin", "admin");
+//        userRepository.add(admin);
+//    }
 }

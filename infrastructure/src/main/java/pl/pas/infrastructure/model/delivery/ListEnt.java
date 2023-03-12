@@ -2,6 +2,7 @@ package pl.pas.infrastructure.model.delivery;
 
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import pl.pas.core.applicationmodel.configuration.ListConfig;

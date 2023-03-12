@@ -1,5 +1,6 @@
 package pl.pas.infrastructure.repositories.hibernate;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceException;
 import pl.pas.infrastructure.exceptions.RepositoryException;
@@ -11,6 +12,7 @@ import java.util.UUID;
 
 import static pl.pas.infrastructure.repositories.hibernate.EntityManagerUtil.getEntityManager;
 
+@ApplicationScoped
 public class UserRepositoryHibernate extends HibernateRepository<ClientEnt> {
 
     public UserRepositoryHibernate() {

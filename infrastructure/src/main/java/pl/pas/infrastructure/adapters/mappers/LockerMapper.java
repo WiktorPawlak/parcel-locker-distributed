@@ -5,6 +5,9 @@ import pl.pas.core.applicationmodel.model.locker.Locker;
 import pl.pas.infrastructure.model.locker.DepositBoxEnt;
 import pl.pas.infrastructure.model.locker.LockerEnt;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class LockerMapper {
 
     public static Locker mapToDomain(LockerEnt lockerEnt) {
@@ -12,7 +15,7 @@ public class LockerMapper {
             lockerEnt.getId(),
             lockerEnt.getIdentityNumber(),
             lockerEnt.getAddress(),
-            lockerEnt.getDepositBoxes().stream().map(LockerMapper::mapToDomain).toList()
+            DepositBoxMapper.mapToDomain(lockerEnt.getDepositBoxes())
         );
     }
 
@@ -21,27 +24,7 @@ public class LockerMapper {
             locker.getId(),
             locker.getIdentityNumber(),
             locker.getAddress(),
-            locker.getDepositBoxes().stream().map(LockerMapper::mapToEntity).toList()
-        );
-    }
-
-    private static DepositBox mapToDomain(DepositBoxEnt depositBoxEnt) {
-        return depositBoxEnt == null ? null : new DepositBox(
-            depositBoxEnt.getId(),
-            DeliveryMapper.mapToDomain(depositBoxEnt.getDelivery()),
-            depositBoxEnt.isEmpty(),
-            depositBoxEnt.getAccessCode(),
-            depositBoxEnt.getTelNumber()
-        );
-    }
-
-    private static DepositBoxEnt mapToEntity(DepositBox depositBox) {
-        return depositBox == null ? null : new DepositBoxEnt(
-            depositBox.getId(),
-            DeliveryMapper.mapToEntity(depositBox.getDelivery()),
-            depositBox.isEmpty(),
-            depositBox.getAccessCode(),
-            depositBox.getTelNumber()
+            DepositBoxMapper.mapToEntity(locker.getDepositBoxes())
         );
     }
 

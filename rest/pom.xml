@@ -9,7 +9,7 @@
 
     <groupId>pl.pas.rest</groupId>
     <artifactId>rest</artifactId>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -24,6 +24,12 @@
         <dependency>
             <groupId>pl.pas.core.services</groupId>
             <artifactId>services</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>pl.pas.infrastructure</groupId>
+            <artifactId>infrastructure</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>

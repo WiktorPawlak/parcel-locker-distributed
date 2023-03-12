@@ -14,7 +14,6 @@ import pl.pas.infrastructure.model.EntityModel;
 import java.util.UUID;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "Users")
 @AllArgsConstructor
 @NoArgsConstructor
