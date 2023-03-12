@@ -1,4 +1,4 @@
-package pl.pas.commons.config;
+package pl.pas.infrastructure.repositories.config;
 
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.containers.wait.strategy.HostPortWaitStrategy;

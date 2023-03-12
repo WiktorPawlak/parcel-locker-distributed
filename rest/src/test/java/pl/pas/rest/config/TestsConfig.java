@@ -1,4 +1,4 @@
-package pl.pas.commons.config;
+package pl.pas.rest.config;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;

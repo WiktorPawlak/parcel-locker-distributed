@@ -1,4 +1,4 @@
-package pl.pas.commons.config;
+package pl.pas.rest.config;
 
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.specification.RequestSpecification;
@@ -12,10 +12,10 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 import org.testcontainers.utility.MountableFile;
 
-import static pl.pas.commons.config.PostgresContainerInitializer.DB_NAME;
-import static pl.pas.commons.config.PostgresContainerInitializer.DB_PASSWORD;
-import static pl.pas.commons.config.PostgresContainerInitializer.DB_USERNAME;
-import static pl.pas.commons.config.PostgresContainerInitializer.POSTGRES_IMAGE;
+import static pl.pas.rest.config.PostgresContainerInitializer.DB_NAME;
+import static pl.pas.rest.config.PostgresContainerInitializer.DB_PASSWORD;
+import static pl.pas.rest.config.PostgresContainerInitializer.DB_USERNAME;
+import static pl.pas.rest.config.PostgresContainerInitializer.POSTGRES_IMAGE;
 
 @Testcontainers
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
