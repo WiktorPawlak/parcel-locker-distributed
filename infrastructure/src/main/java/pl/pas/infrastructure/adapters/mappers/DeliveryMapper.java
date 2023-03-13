@@ -1,10 +1,13 @@
 package pl.pas.infrastructure.adapters.mappers;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import pl.pas.core.applicationmodel.model.delivery.Delivery;
 import pl.pas.core.applicationmodel.model.delivery.Package;
 import pl.pas.infrastructure.model.delivery.DeliveryEntity;
 import pl.pas.infrastructure.model.delivery.PackageEntity;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DeliveryMapper {
 
     public static DeliveryEntity mapToEntity(Delivery delivery) {
@@ -14,6 +17,7 @@ public class DeliveryMapper {
 
         return new DeliveryEntity(
             delivery.getId(),
+            delivery.getVersion(),
             ClientMapper.mapToEntity(delivery.getShipper()),
             ClientMapper.mapToEntity(delivery.getReceiver()),
             DeliveryStatusMapper.mapToEntity(delivery.getStatus()),
@@ -32,6 +36,7 @@ public class DeliveryMapper {
 
         return new Delivery(
             delivery.getId(),
+            delivery.getVersion(),
             ClientMapper.mapToDomain(delivery.getShipper()),
             ClientMapper.mapToDomain(delivery.getReceiver()),
             DeliveryStatusMapper.mapToDomain(delivery.getStatus()),

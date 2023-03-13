@@ -20,7 +20,7 @@ import pl.pas.infrastructure.model.EntityModel;
 @Table(name = "LOCKERS")
 @NoArgsConstructor
 @Getter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 public class LockerEntity extends EntityModel {
 
     private String identityNumber;
@@ -30,8 +30,8 @@ public class LockerEntity extends EntityModel {
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
     private List<DepositBoxEntity> depositBoxes;
 
-    public LockerEntity(UUID id, String identityNumber, String address, List<DepositBoxEntity> depositBoxes) {
-        super(id);
+    public LockerEntity(UUID id, Long version, String identityNumber, String address, List<DepositBoxEntity> depositBoxes) {
+        super(id, version);
         this.identityNumber = identityNumber;
         this.address = address;
         this.depositBoxes = depositBoxes;

@@ -5,7 +5,6 @@ import java.util.UUID;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.inject.Named;
 import lombok.NoArgsConstructor;
 import pl.pas.core.applicationmodel.model.delivery.Delivery;
 import pl.pas.core.applicationmodel.model.user.Client;
@@ -16,7 +15,7 @@ import pl.pas.infrastructure.model.delivery.DeliveryEntity;
 import pl.pas.infrastructure.repositories.hibernate.DeliveryRepositoryHibernate;
 import pl.pas.ports.outcoming.DeliveryRepository;
 
-@Named
+
 @ApplicationScoped
 @NoArgsConstructor
 public class DeliveryRepositoryAdapter implements DeliveryRepository {

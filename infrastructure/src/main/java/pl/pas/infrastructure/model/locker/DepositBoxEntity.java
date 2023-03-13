@@ -14,7 +14,7 @@ import pl.pas.infrastructure.model.delivery.DeliveryEntity;
 @Entity
 @Table(name = "DEPOSIT_BOXES")
 @Getter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 public class DepositBoxEntity extends EntityModel {
 
     @ManyToOne
@@ -30,8 +30,8 @@ public class DepositBoxEntity extends EntityModel {
         accessCode = "";
     }
 
-    public DepositBoxEntity(UUID id, DeliveryEntity delivery, boolean isEmpty, String accessCode, String telNumber) {
-        super(id);
+    public DepositBoxEntity(UUID id, Long version, DeliveryEntity delivery, boolean isEmpty, String accessCode, String telNumber) {
+        super(id, version);
         this.delivery = delivery;
         this.isEmpty = isEmpty;
         this.accessCode = accessCode;

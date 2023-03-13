@@ -3,35 +3,44 @@ package pl.pas.core.applicationmodel.model.user;
 
 import java.util.UUID;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import pl.pas.core.applicationmodel.exceptions.ClientException;
 
 
 @NoArgsConstructor
-@AllArgsConstructor
+@Getter
 @EqualsAndHashCode
 public class Client {
 
     private UUID id;
+    private Long version;
     private String firstName;
     private String lastName;
     private String telNumber;
+
+    @Setter
     private boolean active;
 
     @Builder
     public Client(String firstName, String lastName, String telNumber) {
+        this(UUID.randomUUID(), 0L, firstName, lastName, telNumber, true);
+    }
+
+    public Client(UUID id, Long version, String firstName, String lastName, String telNumber, boolean active) {
         validateName(firstName);
         validateName(lastName);
         validateTelNumber(telNumber);
 
+        this.id = id;
+        this.version = version;
         this.firstName = firstName;
         this.lastName = lastName;
         this.telNumber = telNumber;
-
-        active = true;
+        this.active = active;
     }
 
     private void validateName(String name) {
@@ -42,34 +51,5 @@ public class Client {
     private void validateTelNumber(String telNumber) {
         if (telNumber.isEmpty())
             throw new ClientException("Empty lastName variable!");
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getTelNumber() {
-        return telNumber;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    @Override
-    public String toString() {
-        return firstName + " " + lastName + " phone: " + telNumber + (active ? " Actual" : " Archived");
     }
 }

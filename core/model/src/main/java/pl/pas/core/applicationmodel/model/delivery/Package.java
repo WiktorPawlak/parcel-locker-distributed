@@ -7,11 +7,21 @@ import lombok.Getter;
 
 @Getter
 public abstract class Package {
-    private UUID id; //TODO dodać do ctorów i mapperów
-    public BigDecimal basePrice;
 
-    public Package(BigDecimal basePrice) {
+    private final UUID id;
+
+    private final Long version;
+
+    private BigDecimal basePrice;
+
+    protected Package(UUID id, Long version, BigDecimal basePrice) {
+        this(id, version);
         this.basePrice = basePrice;
+    }
+
+    private Package(UUID id, Long version) {
+        this.id = id;
+        this.version = version;
     }
 
     public abstract BigDecimal getCost();

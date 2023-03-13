@@ -1,34 +1,28 @@
 package pl.pas.infrastructure.model;
 
-import jakarta.persistence.GeneratedValue;
+import java.io.Serializable;
+import java.util.UUID;
+
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.Version;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
-
-import java.io.Serializable;
-import java.util.UUID;
 
 @MappedSuperclass
 @NoArgsConstructor
 public abstract class EntityModel implements Serializable {
+
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-        name = "UUID",
-        strategy = "org.hibernate.id.UUIDGenerator"
-    )
+    @Getter
     protected UUID id;
 
     @Version
+    @Getter
     protected Long version;
 
-    public EntityModel(UUID id) {
+    protected EntityModel(UUID id, Long version) {
         this.id = id;
-    }
-
-    public UUID getId() {
-        return id;
+        this.version = version;
     }
 }

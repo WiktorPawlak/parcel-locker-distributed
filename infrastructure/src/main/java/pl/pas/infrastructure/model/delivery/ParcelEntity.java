@@ -1,10 +1,9 @@
 package pl.pas.infrastructure.model.delivery;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.List;
+import java.util.UUID;
 
-import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +15,7 @@ import pl.pas.core.applicationmodel.exceptions.ParcelException;
 @NoArgsConstructor
 @Getter
 @Setter
-@DiscriminatorColumn(name = "PARCEL")
+@DiscriminatorValue("PARCEL")
 public class ParcelEntity extends PackageEntity {
     private double width;
     private double length;
@@ -24,8 +23,11 @@ public class ParcelEntity extends PackageEntity {
     private double weight;
     private boolean fragile;
 
-    public ParcelEntity(BigDecimal basePrice, double width, double length, double height, double weight, boolean fragile) {
-        super(basePrice);
+    public ParcelEntity(UUID id, Long version,
+                        BigDecimal basePrice,
+                        double width, double length, double height, double weight,
+                        boolean fragile) {
+        super(id, version, basePrice);
 
         validateSize(width);
         validateSize(length);
@@ -48,35 +50,4 @@ public class ParcelEntity extends PackageEntity {
         if (weight <= ParcelConfig.MIN_PARCEL_WEIGHT || weight > ParcelConfig.MAX_PARCEL_WEIGHT)
             throw new ParcelException("invalid weight value!");
     }
-
-    @Override
-    public BigDecimal getCost() {
-        BigDecimal cost = basePrice;
-
-        ParcelType packageType = checkParcelType();
-        switch (packageType) {
-            case SMALL -> cost = cost.multiply(ParcelConfig.SMALL_PACKAGE_MULTIPLAYER);
-            case MEDIUM -> cost = cost.multiply(ParcelConfig.MEDIUM_PACKAGE_MULTIPLAYER);
-            case LARGE -> cost = cost.multiply(ParcelConfig.LARGE_PACKAGE_MULTIPLAYER);
-        }
-
-        return cost;
-    }
-
-    private ParcelType checkParcelType() {
-        List<Double> dims = Arrays.asList(width, length, height);
-        ParcelType type;
-
-        if (dims.stream().anyMatch(dim -> dim >= ParcelConfig.LARGE_SIZE)) {
-            type = ParcelType.LARGE;
-        } else if (dims.stream().anyMatch(dim -> dim >= ParcelConfig.MEDIUM_SIZE)) {
-            type = ParcelType.MEDIUM;
-        } else {
-            type = ParcelType.SMALL;
-        }
-
-        return type;
-    }
-
-    private enum ParcelType {SMALL, MEDIUM, LARGE}
 }

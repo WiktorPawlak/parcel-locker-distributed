@@ -5,6 +5,7 @@ import java.util.List;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import pl.pas.core.applicationmodel.exceptions.ClientManagerException;
 import pl.pas.core.applicationmodel.model.user.Client;
@@ -13,15 +14,12 @@ import pl.pas.ports.outcoming.UserRepository;
 
 
 @ApplicationScoped
+@AllArgsConstructor
 @NoArgsConstructor
 public class UserServiceImpl implements UserService {
 
     @Inject
     private UserRepository clientRepository;
-
-    public UserServiceImpl(UserRepository clientRepository) {
-        this.clientRepository = clientRepository;
-    }
 
     @Override
     public Client getUser(String telNumber) {

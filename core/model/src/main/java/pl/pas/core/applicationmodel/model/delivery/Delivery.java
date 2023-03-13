@@ -1,38 +1,61 @@
 package pl.pas.core.applicationmodel.model.delivery;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import pl.pas.core.applicationmodel.model.EntityModel;
-import pl.pas.core.applicationmodel.model.locker.Locker;
-import pl.pas.core.applicationmodel.model.user.Client;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@AllArgsConstructor
-@Data
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import pl.pas.core.applicationmodel.model.locker.Locker;
+import pl.pas.core.applicationmodel.model.user.Client;
+
+
+@Getter
 @EqualsAndHashCode
 public class Delivery {
 
-    private UUID id;
-    @EqualsAndHashCode.Exclude
-    private Client shipper;
+    private final UUID id;
+
+    private final Long version;
 
     @EqualsAndHashCode.Exclude
-    private Client receiver;
+    private final Client shipper;
+
+    @EqualsAndHashCode.Exclude
+    private final Client receiver;
+
+    @Setter
     private DeliveryStatus status;
 
     @EqualsAndHashCode.Exclude
     private Package pack;
 
     @EqualsAndHashCode.Exclude
-    private Locker locker;
+    private final Locker locker;
 
+    @Setter
     private LocalDateTime allocationStart;
+
+    @Setter
     private LocalDateTime allocationStop;
+
+    @Setter
     private boolean isArchived;
+
+    public Delivery(final UUID id, final Long version,
+                    final Client shipper, final Client receiver,
+                    final DeliveryStatus status,
+                    final Package pack, final Locker locker,
+                    final LocalDateTime allocationStart, final LocalDateTime allocationStop,
+                    final boolean isArchived) {
+        this(id, version, shipper, receiver, locker);
+        this.status = status;
+        this.pack = pack;
+        this.allocationStart = allocationStart;
+        this.allocationStop = allocationStop;
+        this.isArchived = isArchived;
+    }
 
     public Delivery(BigDecimal basePrice,
                     double width,
@@ -43,7 +66,7 @@ public class Delivery {
                     Client shipper,
                     Client receiver,
                     Locker locker) {
-        this(shipper, receiver, locker);
+        this(UUID.randomUUID(), 0L, shipper, receiver, locker);
 
         this.pack = new Parcel(basePrice, width, length, height, weight, isFragile);
     }
@@ -53,14 +76,17 @@ public class Delivery {
                     Client shipper,
                     Client receiver,
                     Locker locker) {
-        this(shipper, receiver, locker);
+        this(UUID.randomUUID(), 0L, shipper, receiver, locker);
 
         this.pack = new List(basePrice, isPriority);
     }
 
-    private Delivery(Client shipper,
+    private Delivery(UUID id, Long version,
+                     Client shipper,
                      Client receiver,
                      Locker locker) {
+        this.id = id;
+        this.version = version;
         this.shipper = shipper;
         this.receiver = receiver;
         this.locker = locker;
@@ -70,53 +96,4 @@ public class Delivery {
     public BigDecimal getCost() {
         return pack.getCost();
     }
-
-    public Client getShipper() {
-        return shipper;
-    }
-
-    public Client getReceiver() {
-        return receiver;
-    }
-
-    public DeliveryStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(DeliveryStatus status) {
-        this.status = status;
-    }
-
-    public Package getPack() {
-        return pack;
-    }
-
-    public Locker getLocker() {
-        return locker;
-    }
-
-    public LocalDateTime getAllocationStop() {
-        return allocationStop;
-    }
-
-    public void setAllocationStop(LocalDateTime allocationStop) {
-        this.allocationStop = allocationStop;
-    }
-
-    public LocalDateTime getAllocationStart() {
-        return allocationStart;
-    }
-
-    public void setAllocationStart(LocalDateTime allocationStart) {
-        this.allocationStart = allocationStart;
-    }
-
-    public boolean isArchived() {
-        return isArchived;
-    }
-
-    public void setArchived(boolean archived) {
-        isArchived = archived;
-    }
-
 }

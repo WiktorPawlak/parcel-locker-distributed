@@ -1,35 +1,39 @@
 package pl.pas.core.applicationmodel.model.locker;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.OneToMany;
-import lombok.AllArgsConstructor;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import pl.pas.core.applicationmodel.model.delivery.Delivery;
 import pl.pas.core.applicationmodel.exceptions.LockerException;
-import pl.pas.core.applicationmodel.model.EntityModel;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import pl.pas.core.applicationmodel.model.delivery.Delivery;
 
 @Slf4j
 @NoArgsConstructor
 @EqualsAndHashCode
 @Getter
-@AllArgsConstructor
 public class Locker {
 
     private UUID id;
+    private Long version;
     private String identityNumber;
     private String address;
     private List<DepositBox> depositBoxes;
 
     public Locker(String identityNumber, String address, int boxAmount) {
+        this(UUID.randomUUID(), 0L, identityNumber, address, boxAmount);
+    }
+
+    public Locker(UUID id, Long version, String identityNumber, String address, List<DepositBox> depositBoxes) {
+        this(id, version, identityNumber, address);
+        this.depositBoxes = depositBoxes;
+    }
+
+    public Locker(UUID id, Long version, String identityNumber, String address, int boxAmount) {
+        this(id, version, identityNumber, address);
         try {
             if (boxAmount <= 0)
                 throw new LockerException("Locker with 0 boxes can not be created!");
@@ -37,12 +41,17 @@ public class Locker {
             log.error(e.getMessage());
         }
 
-        this.identityNumber = identityNumber;
-        this.address = address;
         depositBoxes = new ArrayList<>();
         for (int i = 0; i < boxAmount; i++) {
             depositBoxes.add(new DepositBox());
         }
+    }
+
+    private Locker(UUID id, Long version, String identityNumber, String address) {
+        this.id = id;
+        this.version = version;
+        this.identityNumber = identityNumber;
+        this.address = address;
     }
 
     public UUID putIn(Delivery delivery, String telNumber, String accessCode) {

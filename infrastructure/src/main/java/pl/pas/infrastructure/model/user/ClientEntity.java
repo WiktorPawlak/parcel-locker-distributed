@@ -18,7 +18,7 @@ import pl.pas.infrastructure.model.EntityModel;
 @Table(name = "USERS")
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 public class ClientEntity extends EntityModel {
 
     private String firstName;
@@ -27,8 +27,8 @@ public class ClientEntity extends EntityModel {
     private String telNumber;
     private boolean active;
 
-    public ClientEntity(UUID id, String firstName, String lastName, String telNumber, boolean active) {
-        super(id);
+    public ClientEntity(UUID id, Long version, String firstName, String lastName, String telNumber, boolean active) {
+        super(id, version);
         this.firstName = firstName;
         this.lastName = lastName;
         this.telNumber = telNumber;

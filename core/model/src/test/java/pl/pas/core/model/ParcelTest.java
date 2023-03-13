@@ -1,21 +1,23 @@
 package pl.pas.core.model;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.math.BigDecimal;
+import java.util.UUID;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+
 import pl.pas.core.applicationmodel.exceptions.ParcelException;
 import pl.pas.core.applicationmodel.model.delivery.Parcel;
-
-import java.math.BigDecimal;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ParcelTest {
 
     @Test
     void Should_ReturnSameCost_AsGivenToConstructor() {
-        Parcel p = new Parcel(BigDecimal.TEN, 1,2, 3, 4, true);
+        Parcel p = new Parcel(UUID.randomUUID(), 0L, BigDecimal.TEN, 1, 2, 3, 4, true);
         assertEquals(new BigDecimal("10.0"), p.getCost());
     }
 
@@ -31,5 +33,6 @@ class ParcelTest {
         "1, 2, 3, 50"
     })
     void Should_ThrowException_WhenGivenValuesAreNotCorrect(double width, double length, double height, double weight) {
-        assertThrows(ParcelException.class, () -> new Parcel(BigDecimal.TEN, width, length, height, weight, true));
-    }}
+        assertThrows(ParcelException.class, () -> new Parcel(UUID.randomUUID(), 0L, BigDecimal.TEN, width, length, height, weight, true));
+    }
+}

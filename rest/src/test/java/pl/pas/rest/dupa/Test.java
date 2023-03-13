@@ -40,6 +40,7 @@ class Test {
         given(requestSpecification)
             .contentType(ContentType.JSON)
             .when()
+            .log().all()
             .put(
                 baseUri
                     + "/"
@@ -49,6 +50,7 @@ class Test {
                     + "&accessCode="
                     + accessCode)
             .then()
+            .log().all()
             .statusCode(200);
 
         given(requestSpecification)
@@ -123,7 +125,6 @@ class Test {
                 .when()
                 .post(basePath + "/list")
                 .then()
-                .log().all()
                 .extract()
                 .path("id");
 

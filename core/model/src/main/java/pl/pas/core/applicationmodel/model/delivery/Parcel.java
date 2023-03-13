@@ -1,13 +1,14 @@
 package pl.pas.core.applicationmodel.model.delivery;
 
+import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
+
 import lombok.Getter;
 import lombok.Setter;
 import pl.pas.core.applicationmodel.configuration.ParcelConfig;
 import pl.pas.core.applicationmodel.exceptions.ParcelException;
-
-import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.List;
 
 @Getter
 @Setter
@@ -18,8 +19,17 @@ public class Parcel extends Package {
     private double weight;
     private boolean fragile;
 
-    public Parcel(BigDecimal basePrice, double width, double length, double height, double weight, boolean fragile) {
-        super(basePrice);
+    public Parcel(BigDecimal basePrice,
+                  double width, double length, double height, double weight,
+                  boolean fragile) {
+        this(UUID.randomUUID(), 0L, basePrice, width, length, height, weight, fragile);
+    }
+
+    public Parcel(UUID id, Long version,
+                  BigDecimal basePrice,
+                  double width, double length, double height, double weight,
+                  boolean fragile) {
+        super(id, version, basePrice);
 
         validateSize(width);
         validateSize(length);
@@ -45,7 +55,7 @@ public class Parcel extends Package {
 
     @Override
     public BigDecimal getCost() {
-        BigDecimal cost = basePrice;
+        BigDecimal cost = getBasePrice();
 
         ParcelType packageType = checkParcelType();
         switch (packageType) {

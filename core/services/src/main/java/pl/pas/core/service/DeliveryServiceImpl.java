@@ -44,15 +44,13 @@ public class DeliveryServiceImpl implements DeliveryService {
         String shipperTel,
         String receiverTel,
         String lockerId) {
-        Client shipper =
-            (Client) userRepository
-                .findByTelNumber(shipperTel) //todo po pobraniu encji jest ona konwertowana do domeny - tracimy wersje
-                .orElseThrow();
+        Client shipper = userRepository
+            .findByTelNumber(shipperTel)
+            .orElseThrow();
 
-        Client receiver =
-            (Client) userRepository
-                .findByTelNumber(receiverTel)
-                .orElseThrow();
+        Client receiver = userRepository
+            .findByTelNumber(receiverTel)
+            .orElseThrow();
 
         Locker locker =
             lockerRepository
@@ -73,15 +71,13 @@ public class DeliveryServiceImpl implements DeliveryService {
         String shipperTel,
         String receiverTel,
         String lockerId) {
-        Client shipper =
-            (Client) userRepository
-                .findByTelNumber(shipperTel)
-                .orElseThrow();
+        Client shipper = userRepository
+            .findByTelNumber(shipperTel)
+            .orElseThrow();
 
-        Client receiver =
-            (Client) userRepository
-                .findByTelNumber(receiverTel)
-                .orElseThrow();
+        Client receiver = userRepository
+            .findByTelNumber(receiverTel)
+            .orElseThrow();
 
         Locker locker =
             lockerRepository
@@ -125,7 +121,7 @@ public class DeliveryServiceImpl implements DeliveryService {
             lockerRepository
                 .findByIdentityNumber(latestDeliveryState.getLocker().getIdentityNumber())
                 .orElseThrow(() -> new DeliveryManagerException("Locker not found"));
-        ;
+
         Delivery delivery = locker.takeOut(receiverTel, accessCode);
 
         if (delivery != null) {
@@ -156,20 +152,18 @@ public class DeliveryServiceImpl implements DeliveryService {
 
     @Override
     public List<Delivery> getAllCurrentClientDeliveries(String telNumber) {
-        Client client =
-            (Client) userRepository
-                .findByTelNumber(telNumber)
-                .orElseThrow(() -> new DeliveryManagerException("Client not found"));
+        Client client = userRepository
+            .findByTelNumber(telNumber)
+            .orElseThrow(() -> new DeliveryManagerException("Client not found"));
 
         return deliveryRepository.findCurrentByClient(client);
     }
 
     @Override
     public List<Delivery> getAllReceivedClientDeliveries(String telNumber) {
-        Client receiver =
-            (Client) userRepository
-                .findByTelNumber(telNumber)
-                .orElseThrow(() -> new DeliveryManagerException("Receiver not found"));
+        Client receiver = userRepository
+            .findByTelNumber(telNumber)
+            .orElseThrow(() -> new DeliveryManagerException("Receiver not found"));
 
         return deliveryRepository.findReceivedByClient(receiver);
     }

@@ -1,5 +1,7 @@
 package pl.pas.infrastructure.adapters.mappers;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import pl.pas.core.applicationmodel.model.delivery.List;
 import pl.pas.core.applicationmodel.model.delivery.Package;
 import pl.pas.core.applicationmodel.model.delivery.Parcel;
@@ -7,11 +9,15 @@ import pl.pas.infrastructure.model.delivery.ListEntity;
 import pl.pas.infrastructure.model.delivery.PackageEntity;
 import pl.pas.infrastructure.model.delivery.ParcelEntity;
 
+
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PackageMapper {
 
     private static Parcel mapToDomain(ParcelEntity parcelEnt) {
         return parcelEnt == null ? null : new Parcel(
-            parcelEnt.basePrice,
+            parcelEnt.getId(),
+            parcelEnt.getVersion(),
+            parcelEnt.getBasePrice(),
             parcelEnt.getWidth(),
             parcelEnt.getLength(),
             parcelEnt.getHeight(),
@@ -22,7 +28,9 @@ public class PackageMapper {
 
     private static ParcelEntity mapToEntity(Parcel parcel) {
         return parcel == null ? null : new ParcelEntity(
-            parcel.basePrice,
+            parcel.getId(),
+            parcel.getVersion(),
+            parcel.getBasePrice(),
             parcel.getWidth(),
             parcel.getLength(),
             parcel.getHeight(),
@@ -32,11 +40,19 @@ public class PackageMapper {
     }
 
     private static List mapToDomain(ListEntity listEntity) {
-        return listEntity == null ? null : new List(listEntity.basePrice, listEntity.isPriority());
+        return listEntity == null ? null : new List(
+            listEntity.getId(),
+            listEntity.getVersion(),
+            listEntity.getBasePrice(),
+            listEntity.isPriority());
     }
 
     private static ListEntity mapToEntity(List list) {
-        return list == null ? null : new ListEntity(list.basePrice, list.isPriority());
+        return list == null ? null : new ListEntity(
+            list.getId(),
+            list.getVersion(),
+            list.getBasePrice(),
+            list.isPriority());
     }
 
     public static Package mapToDomain(PackageEntity packageEntity) {
