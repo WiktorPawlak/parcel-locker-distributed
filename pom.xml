@@ -13,7 +13,6 @@
         <module>rest</module>
         <module>infrastructure</module>
         <module>ports</module>
-        <module>commons</module>
     </modules>
     <packaging>pom</packaging>
 

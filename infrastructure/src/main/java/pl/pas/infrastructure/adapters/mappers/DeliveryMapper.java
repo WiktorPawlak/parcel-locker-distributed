@@ -22,7 +22,7 @@ public class DeliveryMapper {
             ClientMapper.mapToEntity(delivery.getReceiver()),
             DeliveryStatusMapper.mapToEntity(delivery.getStatus()),
             pack,
-            LockerMapper.mapToEntity(delivery.getLocker()),
+            delivery.getLockerId(),
             delivery.getAllocationStart(),
             delivery.getAllocationStop(),
             delivery.isArchived()
@@ -41,7 +41,7 @@ public class DeliveryMapper {
             ClientMapper.mapToDomain(delivery.getReceiver()),
             DeliveryStatusMapper.mapToDomain(delivery.getStatus()),
             pack,
-            LockerMapper.mapToDomain(delivery.getLocker()),
+            delivery.getLockerId(),
             delivery.getAllocationStart(),
             delivery.getAllocationStop(),
             delivery.isArchived()

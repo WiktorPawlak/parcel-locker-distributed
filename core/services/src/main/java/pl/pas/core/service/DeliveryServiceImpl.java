@@ -59,7 +59,7 @@ public class DeliveryServiceImpl implements DeliveryService {
 
         Delivery delivery =
             new Delivery(
-                basePrice, width, height, length, weight, isFragile, shipper, receiver, locker);
+                basePrice, width, height, length, weight, isFragile, shipper, receiver, locker.getId());
         deliveryRepository.add(delivery);
         return delivery;
     }
@@ -84,7 +84,7 @@ public class DeliveryServiceImpl implements DeliveryService {
                 .findByIdentityNumber(lockerId)
                 .orElseThrow(() -> new DeliveryManagerException("Locker not found"));
 
-        Delivery delivery = new Delivery(basePrice, isPriority, shipper, receiver, locker);
+        Delivery delivery = new Delivery(basePrice, isPriority, shipper, receiver, locker.getId());
         deliveryRepository.add(delivery);
 
 
@@ -117,10 +117,7 @@ public class DeliveryServiceImpl implements DeliveryService {
     public synchronized void takeOutDelivery(UUID deliveryId, String receiverTel, String accessCode) {
         Delivery latestDeliveryState = deliveryRepository.get(deliveryId);
 
-        Locker locker =
-            lockerRepository
-                .findByIdentityNumber(latestDeliveryState.getLocker().getIdentityNumber())
-                .orElseThrow(() -> new DeliveryManagerException("Locker not found"));
+        Locker locker = lockerRepository.get(latestDeliveryState.getLockerId());
 
         Delivery delivery = locker.takeOut(receiverTel, accessCode);
 

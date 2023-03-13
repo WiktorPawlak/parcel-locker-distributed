@@ -8,7 +8,6 @@ import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.DiscriminatorColumn;
-import jakarta.persistence.DiscriminatorType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
@@ -20,15 +19,13 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import pl.pas.infrastructure.model.EntityModel;
-import pl.pas.infrastructure.model.locker.LockerEntity;
 import pl.pas.infrastructure.model.user.ClientEntity;
 
 @Entity
 @Table(name = "DELIVERIES")
 @Data
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "package_type",
-    discriminatorType = DiscriminatorType.INTEGER)
+@DiscriminatorColumn(name = "package_type")
 @Access(AccessType.FIELD)
 @AllArgsConstructor
 @NoArgsConstructor
@@ -52,9 +49,7 @@ public class DeliveryEntity extends EntityModel {
     private PackageEntity pack;
 
     @EqualsAndHashCode.Exclude
-    @ManyToOne(cascade = {CascadeType.MERGE})
-    @JoinColumn(name = "locker_id")
-    private LockerEntity locker;
+    private UUID lockerId;
 
     private LocalDateTime allocationStart;
     private LocalDateTime allocationStop;
@@ -67,7 +62,7 @@ public class DeliveryEntity extends EntityModel {
                           ClientEntity receiver,
                           DeliveryStatusEntity status,
                           PackageEntity pack,
-                          LockerEntity locker,
+                          UUID lockerId,
                           LocalDateTime allocationStart,
                           LocalDateTime allocationStop,
                           boolean isArchived) {
@@ -76,7 +71,7 @@ public class DeliveryEntity extends EntityModel {
         this.receiver = receiver;
         this.status = status;
         this.pack = pack;
-        this.locker = locker;
+        this.lockerId = lockerId;
         this.allocationStart = allocationStart;
         this.allocationStop = allocationStop;
         this.isArchived = isArchived;
@@ -86,22 +81,22 @@ public class DeliveryEntity extends EntityModel {
                           boolean isPriority,
                           ClientEntity shipper,
                           ClientEntity receiver,
-                          LockerEntity locker,
+                          UUID lockerId,
                           Long version) {
-        this(shipper, receiver, locker, version);
+        this(shipper, receiver, lockerId, version);
 
         this.pack = new ListEntity(UUID.randomUUID(), 0L, basePrice, isPriority);
     }
 
     private DeliveryEntity(ClientEntity shipper,
                            ClientEntity receiver,
-                           LockerEntity locker,
+                           UUID lockerId,
                            Long version) {
         this.id = UUID.randomUUID();
         this.version = version;
         this.shipper = shipper;
         this.receiver = receiver;
-        this.locker = locker;
+        this.lockerId = lockerId;
         this.status = DeliveryStatusEntity.READY_TO_SHIP;
     }
 }

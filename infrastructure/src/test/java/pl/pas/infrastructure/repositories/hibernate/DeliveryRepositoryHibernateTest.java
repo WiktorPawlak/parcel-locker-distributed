@@ -41,7 +41,7 @@ class DeliveryRepositoryHibernateTest extends TestsConfig {
 
     @Test
     void Should_CreateDelivery() {
-        DeliveryEntity delivery = new DeliveryEntity(BigDecimal.TEN, true, c1, c2, l1, 0L);
+        DeliveryEntity delivery = new DeliveryEntity(BigDecimal.TEN, true, c1, c2, l1.getId(), 0L);
         deliveryRepository.add(delivery);
         delivery = deliveryRepository.get(delivery.getId());
         assertEquals(deliveryRepository.get(delivery.getId()), delivery);
@@ -49,7 +49,7 @@ class DeliveryRepositoryHibernateTest extends TestsConfig {
 
     @Test
     void Should_UpdateDelivery() {
-        DeliveryEntity delivery = new DeliveryEntity(BigDecimal.TEN, true, c1, c2, l1, 0L);
+        DeliveryEntity delivery = new DeliveryEntity(BigDecimal.TEN, true, c1, c2, l1.getId(), 0L);
         deliveryRepository.add(delivery);
         assertEquals(DeliveryStatusEntity.READY_TO_SHIP, deliveryRepository.get(delivery.getId()).getStatus());
         delivery.setStatus(DeliveryStatusEntity.READY_TO_PICKUP);
@@ -59,7 +59,7 @@ class DeliveryRepositoryHibernateTest extends TestsConfig {
 
     @Test
     void Should_DeleteDelivery() {
-        DeliveryEntity delivery = new DeliveryEntity(BigDecimal.TEN, true, c1, c2, l1, 0L);
+        DeliveryEntity delivery = new DeliveryEntity(BigDecimal.TEN, true, c1, c2, l1.getId(), 0L);
         deliveryRepository.add(delivery);
         assertEquals(deliveryRepository.get(delivery.getId()), delivery);
         deliveryRepository.remove(delivery);
@@ -68,7 +68,7 @@ class DeliveryRepositoryHibernateTest extends TestsConfig {
 
     @Test
     void Should_ArchiveDelivery() {
-        DeliveryEntity delivery = new DeliveryEntity(BigDecimal.TEN, true, c1, c2, l1, 0L);
+        DeliveryEntity delivery = new DeliveryEntity(BigDecimal.TEN, true, c1, c2, l1.getId(), 0L);
         deliveryRepository.add(delivery);
         assertFalse(deliveryRepository.get(delivery.getId()).isArchived());
         deliveryRepository.archive(delivery.getId());
@@ -77,8 +77,8 @@ class DeliveryRepositoryHibernateTest extends TestsConfig {
 
     @Test
     void Should_ReturnAllDeliveries() {
-        DeliveryEntity delivery = new DeliveryEntity(BigDecimal.TEN, true, c1, c2, l1, 0L);
-        DeliveryEntity delivery1 = new DeliveryEntity(BigDecimal.ONE, false, c2, c1, l1, 0L);
+        DeliveryEntity delivery = new DeliveryEntity(BigDecimal.TEN, true, c1, c2, l1.getId(), 0L);
+        DeliveryEntity delivery1 = new DeliveryEntity(BigDecimal.ONE, false, c2, c1, l1.getId(), 0L);
         deliveryRepository.add(delivery);
         deliveryRepository.add(delivery1);
         assertTrue(deliveryRepository.findAll().contains(delivery));

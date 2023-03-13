@@ -7,7 +7,6 @@ import java.util.UUID;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import pl.pas.core.applicationmodel.model.locker.Locker;
 import pl.pas.core.applicationmodel.model.user.Client;
 
 
@@ -32,7 +31,7 @@ public class Delivery {
     private Package pack;
 
     @EqualsAndHashCode.Exclude
-    private final Locker locker;
+    private final UUID lockerId;
 
     @Setter
     private LocalDateTime allocationStart;
@@ -46,10 +45,10 @@ public class Delivery {
     public Delivery(final UUID id, final Long version,
                     final Client shipper, final Client receiver,
                     final DeliveryStatus status,
-                    final Package pack, final Locker locker,
+                    final Package pack, final UUID lockerId,
                     final LocalDateTime allocationStart, final LocalDateTime allocationStop,
                     final boolean isArchived) {
-        this(id, version, shipper, receiver, locker);
+        this(id, version, shipper, receiver, lockerId);
         this.status = status;
         this.pack = pack;
         this.allocationStart = allocationStart;
@@ -65,8 +64,8 @@ public class Delivery {
                     boolean isFragile,
                     Client shipper,
                     Client receiver,
-                    Locker locker) {
-        this(UUID.randomUUID(), 0L, shipper, receiver, locker);
+                    UUID lockerId) {
+        this(UUID.randomUUID(), 0L, shipper, receiver, lockerId);
 
         this.pack = new Parcel(basePrice, width, length, height, weight, isFragile);
     }
@@ -75,8 +74,8 @@ public class Delivery {
                     boolean isPriority,
                     Client shipper,
                     Client receiver,
-                    Locker locker) {
-        this(UUID.randomUUID(), 0L, shipper, receiver, locker);
+                    UUID lockerId) {
+        this(UUID.randomUUID(), 0L, shipper, receiver, lockerId);
 
         this.pack = new List(basePrice, isPriority);
     }
@@ -84,12 +83,12 @@ public class Delivery {
     private Delivery(UUID id, Long version,
                      Client shipper,
                      Client receiver,
-                     Locker locker) {
+                     UUID lockerId) {
         this.id = id;
         this.version = version;
         this.shipper = shipper;
         this.receiver = receiver;
-        this.locker = locker;
+        this.lockerId = lockerId;
         this.status = DeliveryStatus.READY_TO_SHIP;
     }
 
