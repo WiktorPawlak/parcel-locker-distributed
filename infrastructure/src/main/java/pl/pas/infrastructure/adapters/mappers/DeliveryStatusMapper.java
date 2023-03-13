@@ -1,16 +1,16 @@
 package pl.pas.infrastructure.adapters.mappers;
 
 import pl.pas.core.applicationmodel.model.delivery.DeliveryStatus;
-import pl.pas.infrastructure.model.delivery.DeliveryStatusEnt;
+import pl.pas.infrastructure.model.delivery.DeliveryStatusEntity;
 
 public class DeliveryStatusMapper {
 
-    public static DeliveryStatus mapToDomain(DeliveryStatusEnt deliveryStatusEnt) {
-        return DeliveryStatus.valueOf(deliveryStatusEnt.name());
+    public static DeliveryStatus mapToDomain(DeliveryStatusEntity deliveryStatusEntity) {
+        return DeliveryStatus.valueOf(deliveryStatusEntity.name());
     }
 
-    public static DeliveryStatusEnt mapToEntity(DeliveryStatus deliveryStatus) {
-        return DeliveryStatusEnt.valueOf(deliveryStatus.name());
+    public static DeliveryStatusEntity mapToEntity(DeliveryStatus deliveryStatus) {
+        return DeliveryStatusEntity.valueOf(deliveryStatus.name());
     }
 
 }

@@ -1,24 +1,23 @@
 package pl.pas.infrastructure.model.delivery;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import pl.pas.core.applicationmodel.configuration.ListConfig;
-
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 @Entity
 @Getter
 @NoArgsConstructor
 @DiscriminatorColumn(name = "LIST")
-public class ListEnt extends PackageEnt {
+public class ListEntity extends PackageEntity {
 
     private boolean priority;
 
-    public ListEnt(BigDecimal basePrice, boolean priority) {
+    public ListEntity(BigDecimal basePrice, boolean priority) {
         super(basePrice);
 
         this.priority = priority;

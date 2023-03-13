@@ -1,8 +1,6 @@
 package pl.pas.rest.controllers;
 
 
-import java.util.UUID;
-
 import jakarta.inject.Inject;
 import jakarta.persistence.NoResultException;
 import jakarta.validation.Valid;
@@ -52,9 +50,9 @@ public class ClientController {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response registerClient(@QueryParam("operatorId") UUID operatorID, @Valid ClientDto clientDTO) {
+    public Response registerClient(@Valid ClientDto clientDTO) {
         try {
-            Client newUser = userService.registerClient(operatorID, clientDTO.firstName, clientDTO.lastName, clientDTO.telNumber);
+            Client newUser = userService.registerClient(clientDTO.firstName, clientDTO.lastName, clientDTO.telNumber);
             return Response.status(Response.Status.CREATED).entity(newUser).build();
         } catch (ValidationException | NullPointerException e) {
             return Response.status(Response.Status.NOT_ACCEPTABLE).build();
@@ -66,10 +64,10 @@ public class ClientController {
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.TEXT_PLAIN})
-    public Response unregisterClient(@QueryParam("operatorId") UUID operatorId, String telNumber) {
+    public Response unregisterClient(String telNumber) {
         try {
             Client user = userService.getUser(telNumber);
-            Client unregisteredUser = userService.unregisterClient(operatorId, user);
+            Client unregisteredUser = userService.unregisterClient(user);
             return Response.ok().entity(unregisteredUser).build();
         } catch (ValidationException | NullPointerException e) {
             return Response.status(Response.Status.NOT_ACCEPTABLE).build();

@@ -1,19 +1,19 @@
 package pl.pas.infrastructure.model.delivery;
 
+import java.math.BigDecimal;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.NoArgsConstructor;
 import pl.pas.infrastructure.model.EntityModel;
 
-import java.math.BigDecimal;
-
 @Entity
-@Table(name = "Packages")
+@Table(name = "PACKAGES")
 @NoArgsConstructor
-public abstract class PackageEnt extends EntityModel {
+public abstract class PackageEntity extends EntityModel {
     public BigDecimal basePrice;
 
-    public PackageEnt(BigDecimal basePrice) {
+    public PackageEntity(BigDecimal basePrice) {
         this.basePrice = basePrice;
     }
 

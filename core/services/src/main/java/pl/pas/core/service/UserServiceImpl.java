@@ -2,21 +2,19 @@ package pl.pas.core.service;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import lombok.NoArgsConstructor;
 import pl.pas.core.applicationmodel.exceptions.ClientManagerException;
 import pl.pas.core.applicationmodel.model.user.Client;
-import pl.pas.ports.outcoming.UserRepository;
 import pl.pas.ports.incoming.UserService;
+import pl.pas.ports.outcoming.UserRepository;
 
 
 @ApplicationScoped
 @NoArgsConstructor
 public class UserServiceImpl implements UserService {
-
 
     @Inject
     private UserRepository clientRepository;
@@ -46,7 +44,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public synchronized Client registerClient(UUID operatorId, String firstName, String lastName, String telNumber) {
+    public synchronized Client registerClient(String firstName, String lastName, String telNumber) {
         validateIfEmpty(firstName, lastName, telNumber);
 
         for (Client user : clientRepository.findAll()) {
@@ -60,7 +58,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Client unregisterClient(UUID operatorId, Client user) {
+    public Client unregisterClient(Client user) {
         if (user == null)
             throw new ClientManagerException("Client is a null!");
 

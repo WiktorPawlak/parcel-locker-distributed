@@ -1,5 +1,8 @@
 package pl.pas.infrastructure.adapters;
 
+import java.util.List;
+import java.util.UUID;
+
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -9,12 +12,9 @@ import pl.pas.core.applicationmodel.model.user.Client;
 import pl.pas.infrastructure.adapters.mappers.ClientMapper;
 import pl.pas.infrastructure.adapters.mappers.DeliveryMapper;
 import pl.pas.infrastructure.adapters.mappers.DeliveryStatusMapper;
-import pl.pas.infrastructure.model.delivery.DeliveryEnt;
+import pl.pas.infrastructure.model.delivery.DeliveryEntity;
 import pl.pas.infrastructure.repositories.hibernate.DeliveryRepositoryHibernate;
 import pl.pas.ports.outcoming.DeliveryRepository;
-
-import java.util.List;
-import java.util.UUID;
 
 @Named
 @ApplicationScoped
@@ -26,24 +26,24 @@ public class DeliveryRepositoryAdapter implements DeliveryRepository {
 
     @Override
     public Delivery get(UUID deliveryId) {
-        DeliveryEnt deliveryEnt = deliveryRepository.get(deliveryId);
-        return DeliveryMapper.mapToDomain(deliveryEnt);
+        DeliveryEntity deliveryEntity = deliveryRepository.get(deliveryId);
+        return DeliveryMapper.mapToDomain(deliveryEntity);
     }
 
     @Override
     public void add(Delivery delivery) {
-        DeliveryEnt deliveryEnt = DeliveryMapper.mapToEntity(delivery);
-        deliveryRepository.add(deliveryEnt);
+        DeliveryEntity deliveryEntity = DeliveryMapper.mapToEntity(delivery);
+        deliveryRepository.add(deliveryEntity);
     }
 
     @Override
     public void update(Delivery delivery) {
-        DeliveryEnt deliveryEnt = deliveryRepository.get(delivery.getId());
-        deliveryEnt.setArchived(delivery.isArchived());
-        deliveryEnt.setStatus(DeliveryStatusMapper.mapToEntity(delivery.getStatus()));
-        deliveryEnt.setAllocationStart(delivery.getAllocationStart());
-        deliveryEnt.setAllocationStop(delivery.getAllocationStop());
-        deliveryRepository.update(deliveryEnt);
+        DeliveryEntity deliveryEntity = deliveryRepository.get(delivery.getId());
+        deliveryEntity.setArchived(delivery.isArchived());
+        deliveryEntity.setStatus(DeliveryStatusMapper.mapToEntity(delivery.getStatus()));
+        deliveryEntity.setAllocationStart(delivery.getAllocationStart());
+        deliveryEntity.setAllocationStop(delivery.getAllocationStop());
+        deliveryRepository.update(deliveryEntity);
     }
 
     @Override

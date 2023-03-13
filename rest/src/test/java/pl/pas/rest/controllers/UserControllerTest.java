@@ -1,28 +1,20 @@
 package pl.pas.rest.controllers;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static io.restassured.RestAssured.given;
+
+import org.junit.jupiter.api.Test;
+
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
 import pl.pas.core.applicationmodel.model.user.Client;
 import pl.pas.rest.config.JakartaContainerInitializer;
 import pl.pas.rest.controllers.dto.ClientDto;
-
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.equalTo;
 
 class UserControllerTest extends JakartaContainerInitializer {
 
     private static final String basePath = "/api/clients";
 
-    private String adminId;
-
-    @BeforeAll
-    void init() {
-        adminId = given(requestSpecification)
-            .when().get(basePath + "/admin")
-            .then().extract().path("id");
-    }
 
     @Test
     void Should_CreateClient() {
@@ -35,7 +27,6 @@ class UserControllerTest extends JakartaContainerInitializer {
         RestAssured.given(requestSpecification)
             .contentType(ContentType.JSON)
             .body(client)
-            .queryParam("operatorId", adminId)
             .when()
             .post(basePath)
             .then()
@@ -54,7 +45,6 @@ class UserControllerTest extends JakartaContainerInitializer {
         given(requestSpecification)
             .contentType(ContentType.JSON)
             .body(client)
-            .queryParam("operatorId", adminId)
             .when()
             .post(basePath)
             .then()
@@ -82,14 +72,12 @@ class UserControllerTest extends JakartaContainerInitializer {
         given(requestSpecification)
             .contentType(ContentType.JSON)
             .body(client1)
-            .queryParam("operatorId", adminId)
             .when()
             .post(basePath);
 
         given(requestSpecification)
             .contentType(ContentType.JSON)
             .body(client2)
-            .queryParam("operatorId", adminId)
             .when()
             .post(basePath);
 
@@ -112,12 +100,12 @@ class UserControllerTest extends JakartaContainerInitializer {
         given(requestSpecification)
             .contentType(ContentType.JSON)
             .body(client)
-            .queryParam("operatorId", adminId)
             .when()
             .post(basePath);
 
         RestAssured.given(requestSpecification)
-            .with().contentType(ContentType.TEXT).body(client.getTelNumber()).queryParam("operatorId", adminId)
+            .with().contentType(ContentType.TEXT)
+            .body(client.getTelNumber())
             .when().put(basePath)
             .then().statusCode(200)
             .body("firstName", equalTo("Jan"));

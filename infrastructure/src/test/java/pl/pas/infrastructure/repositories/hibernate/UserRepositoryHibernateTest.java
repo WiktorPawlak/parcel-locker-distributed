@@ -12,16 +12,16 @@ import org.junit.jupiter.api.TestInstance;
 
 import pl.pas.core.applicationmodel.model.user.Client;
 import pl.pas.infrastructure.adapters.mappers.ClientMapper;
-import pl.pas.infrastructure.model.user.ClientEnt;
+import pl.pas.infrastructure.model.user.ClientEntity;
 import pl.pas.infrastructure.repositories.config.TestsConfig;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class UserRepositoryHibernateTest extends TestsConfig {
-    private ClientEnt c1;
-    private ClientEnt c2;
-    private ClientEnt c3;
-    private ClientEnt c4;
-    private ClientEnt c5;
+    private ClientEntity c1;
+    private ClientEntity c2;
+    private ClientEntity c3;
+    private ClientEntity c4;
+    private ClientEntity c5;
 
     @BeforeEach
     void setup() {

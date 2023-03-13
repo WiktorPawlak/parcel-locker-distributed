@@ -1,18 +1,18 @@
 package pl.pas.infrastructure.adapters;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import lombok.NoArgsConstructor;
 import pl.pas.core.applicationmodel.model.user.Client;
 import pl.pas.infrastructure.adapters.mappers.ClientMapper;
-import pl.pas.infrastructure.model.user.ClientEnt;
+import pl.pas.infrastructure.model.user.ClientEntity;
 import pl.pas.infrastructure.repositories.hibernate.UserRepositoryHibernate;
 import pl.pas.ports.outcoming.UserRepository;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 @Named
 @ApplicationScoped
@@ -24,7 +24,7 @@ public class UserRepositoryAdapter implements UserRepository {
 
     @Override
     public void add(Client user) {
-        ClientEnt userEnt = ClientMapper.mapToEntity(user);
+        ClientEntity userEnt = ClientMapper.mapToEntity(user);
         userRepository.add(userEnt);
     }
 

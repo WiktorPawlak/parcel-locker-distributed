@@ -1,24 +1,24 @@
 package pl.pas.infrastructure.adapters.mappers;
 
-import pl.pas.core.applicationmodel.model.locker.DepositBox;
-import pl.pas.infrastructure.model.locker.DepositBoxEnt;
-
 import java.util.List;
+
+import pl.pas.core.applicationmodel.model.locker.DepositBox;
+import pl.pas.infrastructure.model.locker.DepositBoxEntity;
 
 public class DepositBoxMapper {
 
-    private static DepositBox mapToDomain(DepositBoxEnt depositBoxEnt) {
-        return (depositBoxEnt == null) ? null : new DepositBox(
-            depositBoxEnt.getId(),
-            DeliveryMapper.mapToDomain(depositBoxEnt.getDelivery()),
-            depositBoxEnt.isEmpty(),
-            depositBoxEnt.getAccessCode(),
-            depositBoxEnt.getTelNumber()
+    private static DepositBox mapToDomain(DepositBoxEntity depositBoxEntity) {
+        return (depositBoxEntity == null) ? null : new DepositBox(
+            depositBoxEntity.getId(),
+            DeliveryMapper.mapToDomain(depositBoxEntity.getDelivery()),
+            depositBoxEntity.isEmpty(),
+            depositBoxEntity.getAccessCode(),
+            depositBoxEntity.getTelNumber()
         );
     }
 
-    private static DepositBoxEnt mapToEntity(DepositBox depositBox) {
-        return depositBox == null ? null : new DepositBoxEnt(
+    private static DepositBoxEntity mapToEntity(DepositBox depositBox) {
+        return depositBox == null ? null : new DepositBoxEntity(
             depositBox.getId(),
             DeliveryMapper.mapToEntity(depositBox.getDelivery()),
             depositBox.isEmpty(),
@@ -27,13 +27,13 @@ public class DepositBoxMapper {
         );
     }
 
-    public static List<DepositBox> mapToDomain(List<DepositBoxEnt> depositBoxes) {
+    public static List<DepositBox> mapToDomain(List<DepositBoxEntity> depositBoxes) {
         return depositBoxes.stream()
             .map(DepositBoxMapper::mapToDomain)
             .toList();
     }
 
-    public static List<DepositBoxEnt> mapToEntity(List<DepositBox> depositBoxes) {
+    public static List<DepositBoxEntity> mapToEntity(List<DepositBox> depositBoxes) {
         return depositBoxes.stream()
             .map(DepositBoxMapper::mapToEntity)
             .toList();

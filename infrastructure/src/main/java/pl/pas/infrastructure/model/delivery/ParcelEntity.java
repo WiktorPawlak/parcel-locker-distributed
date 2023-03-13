@@ -1,5 +1,9 @@
 package pl.pas.infrastructure.model.delivery;
 
+import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
+
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Entity;
 import lombok.Getter;
@@ -8,23 +12,19 @@ import lombok.Setter;
 import pl.pas.core.applicationmodel.configuration.ParcelConfig;
 import pl.pas.core.applicationmodel.exceptions.ParcelException;
 
-import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.List;
-
 @Entity
 @NoArgsConstructor
 @Getter
 @Setter
 @DiscriminatorColumn(name = "PARCEL")
-public class ParcelEnt extends PackageEnt {
+public class ParcelEntity extends PackageEntity {
     private double width;
     private double length;
     private double height;
     private double weight;
     private boolean fragile;
 
-    public ParcelEnt(BigDecimal basePrice, double width, double length, double height, double weight, boolean fragile) {
+    public ParcelEntity(BigDecimal basePrice, double width, double length, double height, double weight, boolean fragile) {
         super(basePrice);
 
         validateSize(width);

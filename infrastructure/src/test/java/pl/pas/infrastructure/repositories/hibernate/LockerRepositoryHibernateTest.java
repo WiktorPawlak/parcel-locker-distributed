@@ -9,12 +9,12 @@ import org.junit.jupiter.api.TestInstance;
 
 import pl.pas.core.applicationmodel.model.locker.Locker;
 import pl.pas.infrastructure.adapters.mappers.LockerMapper;
-import pl.pas.infrastructure.model.locker.LockerEnt;
+import pl.pas.infrastructure.model.locker.LockerEntity;
 import pl.pas.infrastructure.repositories.config.TestsConfig;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class LockerRepositoryHibernateTest extends TestsConfig {
-    private LockerEnt l1;
+    private LockerEntity l1;
 
     @BeforeAll
     void setup() {

@@ -2,7 +2,7 @@
   <configuration default="false" name="payara-server-6.2023.2" type="PayaraServerConfiguration" factoryName="Local" APPLICATION_SERVER_NAME="Payara 6.2023.2" ALTERNATIVE_JRE_ENABLED="true" ALTERNATIVE_JRE_PATH="temurin-17.0.6">
     <option name="UPDATING_POLICY" value="restart-server" />
     <deployment>
-      <artifact name="parcel-locker:war exploded">
+      <artifact name="rest:war exploded">
         <settings />
       </artifact>
     </deployment>
@@ -76,7 +76,7 @@
     <method v="2">
       <option name="Maven.BeforeRunTask" enabled="true" file="$PROJECT_DIR$/pom.xml" goal="clean install -DskipTests" />
       <option name="BuildArtifacts" enabled="true">
-        <artifact name="parcel-locker:war exploded" />
+        <artifact name="rest:war exploded" />
       </option>
     </method>
   </configuration>

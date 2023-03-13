@@ -1,5 +1,7 @@
 package pl.pas.core.service;
 
+import static pl.pas.core.applicationmodel.model.delivery.DeliveryStatus.READY_TO_PICKUP;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -11,15 +13,13 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import pl.pas.core.applicationmodel.exceptions.DeliveryManagerException;
 import pl.pas.core.applicationmodel.model.delivery.Delivery;
-import pl.pas.ports.outcoming.DeliveryRepository;
 import pl.pas.core.applicationmodel.model.delivery.DeliveryStatus;
 import pl.pas.core.applicationmodel.model.locker.Locker;
-import pl.pas.ports.outcoming.LockerRepository;
 import pl.pas.core.applicationmodel.model.user.Client;
-import pl.pas.ports.outcoming.UserRepository;
 import pl.pas.ports.incoming.DeliveryService;
-
-import static pl.pas.core.applicationmodel.model.delivery.DeliveryStatus.READY_TO_PICKUP;
+import pl.pas.ports.outcoming.DeliveryRepository;
+import pl.pas.ports.outcoming.LockerRepository;
+import pl.pas.ports.outcoming.UserRepository;
 
 @ApplicationScoped
 @NoArgsConstructor
@@ -46,7 +46,7 @@ public class DeliveryServiceImpl implements DeliveryService {
         String lockerId) {
         Client shipper =
             (Client) userRepository
-                .findByTelNumber(shipperTel)
+                .findByTelNumber(shipperTel) //todo po pobraniu encji jest ona konwertowana do domeny - tracimy wersje
                 .orElseThrow();
 
         Client receiver =
@@ -90,6 +90,8 @@ public class DeliveryServiceImpl implements DeliveryService {
 
         Delivery delivery = new Delivery(basePrice, isPriority, shipper, receiver, locker);
         deliveryRepository.add(delivery);
+
+
         return delivery;
     }
 

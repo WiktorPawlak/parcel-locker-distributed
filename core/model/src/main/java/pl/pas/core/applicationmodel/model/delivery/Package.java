@@ -1,13 +1,13 @@
 package pl.pas.core.applicationmodel.model.delivery;
 
-import lombok.Getter;
-
 import java.math.BigDecimal;
 import java.util.UUID;
 
+import lombok.Getter;
+
 @Getter
 public abstract class Package {
-    private UUID id;
+    private UUID id; //TODO dodać do ctorów i mapperów
     public BigDecimal basePrice;
 
     public Package(BigDecimal basePrice) {

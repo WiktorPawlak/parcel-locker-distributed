@@ -17,20 +17,20 @@ import pl.pas.infrastructure.model.EntityModel;
 
 @Slf4j
 @Entity
-@Table(name = "Lockers")
+@Table(name = "LOCKERS")
 @NoArgsConstructor
-@EqualsAndHashCode
 @Getter
-public class LockerEnt extends EntityModel {
+@EqualsAndHashCode
+public class LockerEntity extends EntityModel {
 
     private String identityNumber;
     private String address;
 
     @Setter
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE})
-    private List<DepositBoxEnt> depositBoxes;
+    private List<DepositBoxEntity> depositBoxes;
 
-    public LockerEnt(UUID id, String identityNumber, String address, List<DepositBoxEnt> depositBoxes) {
+    public LockerEntity(UUID id, String identityNumber, String address, List<DepositBoxEntity> depositBoxes) {
         super(id);
         this.identityNumber = identityNumber;
         this.address = address;

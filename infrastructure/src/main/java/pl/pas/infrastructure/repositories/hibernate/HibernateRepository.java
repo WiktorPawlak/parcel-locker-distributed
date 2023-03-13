@@ -1,18 +1,18 @@
 package pl.pas.infrastructure.repositories.hibernate;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceException;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import pl.pas.infrastructure.model.EntityModel;
-import pl.pas.infrastructure.exceptions.RepositoryException;
+import static pl.pas.infrastructure.repositories.hibernate.EntityManagerUtil.getEntityManager;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import static pl.pas.infrastructure.repositories.hibernate.EntityManagerUtil.getEntityManager;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceException;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import pl.pas.infrastructure.exceptions.RepositoryException;
+import pl.pas.infrastructure.model.EntityModel;
 
 @Slf4j
 @AllArgsConstructor
