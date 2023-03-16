@@ -25,7 +25,7 @@ public class JakartaContainerInitializer {
         .withTag("15.0-alpine");
 
     private static final int PORT = 8080;
-    private static final String PACKAGE_NAME = "rest-1.0-SNAPSHOT.war";
+    private static final String PACKAGE_NAME = "parcel-locker-rest-1.0-SNAPSHOT.war";
     private static final String CONTAINER_DEPLOYMENT_PATH = "/opt/payara/deployments/";
     private static final DockerImageName PAYARA_IMAGE = DockerImageName
         .parse("payara/micro")

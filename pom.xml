@@ -9,10 +9,10 @@
     <version>1.0-SNAPSHOT</version>
     <name>parcel-locker</name>
     <modules>
-        <module>core</module>
-        <module>rest</module>
-        <module>infrastructure</module>
-        <module>ports</module>
+        <module>parcel-locker-core</module>
+        <module>parcel-locker-rest</module>
+        <module>parcel-locker-infrastructure</module>
+        <module>parcel-locker-ports</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -22,7 +22,7 @@
         <maven.compiler.source>17</maven.compiler.source>
 
         <jakarta.jakartaee-api.version>10.0.0</jakarta.jakartaee-api.version>
-        <!--        <jakarta.persistence-api.version>3.1.0</jakarta.persistence-api.version>-->
+        <!--<jakarta.persistence-api.version>3.1.0</jakarta.persistence-api.version>-->
 
         <postgres.version>42.5.0</postgres.version>
         <hibernate.version>6.1.4.Final</hibernate.version>

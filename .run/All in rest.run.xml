@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="All in rest" type="JUnit" factoryName="JUnit">
-    <module name="rest" />
+    <module name="parcel-locker-rest" />
     <extension name="net.ashald.envfile">
       <option name="IS_ENABLED" value="false" />
       <option name="IS_SUBST" value="false" />

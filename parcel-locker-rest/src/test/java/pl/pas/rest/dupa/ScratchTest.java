@@ -1,6 +1,6 @@
 package pl.pas.rest.dupa;
 
-class Test {
+class ScratchTest {
 
 //    private static final String baseUri = "/api/deliveries";
 //

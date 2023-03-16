@@ -7,8 +7,8 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>pl.pas.infrastructure</groupId>
-    <artifactId>infrastructure</artifactId>
+    <groupId>pl.pas.ports</groupId>
+    <artifactId>parcel-locker-ports</artifactId>
     <packaging>jar</packaging>
 
     <properties>
@@ -18,12 +18,6 @@
         <dependency>
             <groupId>pl.pas.core.model</groupId>
             <artifactId>model</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>pl.pas.ports</groupId>
-            <artifactId>ports</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>

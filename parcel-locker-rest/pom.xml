@@ -2,14 +2,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>pl.pas.core</groupId>
-        <artifactId>core</artifactId>
+        <groupId>pl.pas</groupId>
+        <artifactId>parcel-locker</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>pl.pas.core.services</groupId>
-    <artifactId>services</artifactId>
-    <packaging>jar</packaging>
+    <groupId>pl.pas.rest</groupId>
+    <artifactId>parcel-locker-rest</artifactId>
+    <packaging>war</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -22,18 +22,21 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>pl.pas.ports</groupId>
-            <artifactId>ports</artifactId>
+            <groupId>pl.pas.core.services</groupId>
+            <artifactId>services</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>5.2.0</version>
-            <scope>test</scope>
+            <groupId>pl.pas.infrastructure</groupId>
+            <artifactId>parcel-locker-infrastructure</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
-
+        <dependency>
+            <groupId>pl.pas.ports</groupId>
+            <artifactId>parcel-locker-ports</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 </project>

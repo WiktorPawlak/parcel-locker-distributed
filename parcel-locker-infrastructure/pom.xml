@@ -7,9 +7,9 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>pl.pas.rest</groupId>
-    <artifactId>rest</artifactId>
-    <packaging>war</packaging>
+    <groupId>pl.pas.infrastructure</groupId>
+    <artifactId>parcel-locker-infrastructure</artifactId>
+    <packaging>jar</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -22,20 +22,10 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>pl.pas.core.services</groupId>
-            <artifactId>services</artifactId>
+            <groupId>pl.pas.ports</groupId>
+            <artifactId>parcel-locker-ports</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>pl.pas.infrastructure</groupId>
-            <artifactId>infrastructure</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>pl.pas.ports</groupId>
-            <artifactId>ports</artifactId>
-            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
