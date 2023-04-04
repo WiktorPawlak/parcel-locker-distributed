@@ -1,5 +1,7 @@
-# parcel-locker-tks-2023
-REST application implementing opinionated logic of parcel lockers.
+# parcel-locker-tks-2023 [![Java CI with Maven](https://github.com/o-trela/parcel-locker-tks-2023/actions/workflows/maven.yml/badge.svg?branch=master)](https://github.com/o-trela/parcel-locker-tks-2023/actions/workflows/maven.yml)
+REST application implementing opinionated logic of parcel lockers.\
+It also exposes CRUD Soap API.\
+Port&Adapters approach was chosen as an architecture of the project.
 
 ## Requirements
 
@@ -15,7 +17,7 @@ REST application implementing opinionated logic of parcel lockers.
 In the root of the project there is a docker-compose.yaml for postgresql deployment.
 Before starting payara server it needs to be executed.
 
-Integration tests with REST Assured are wrapped with Test Containers.\
+Integration tests are wrapped with Test Containers.\
 This means docker-compose does not need to be executed.\
 Only dockerd needs to be running.
 

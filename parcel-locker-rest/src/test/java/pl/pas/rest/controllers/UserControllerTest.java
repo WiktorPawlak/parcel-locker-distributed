@@ -8,10 +8,10 @@ import org.junit.jupiter.api.Test;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import pl.pas.core.applicationmodel.model.user.Client;
-import pl.pas.rest.config.JakartaContainerInitializer;
+import pl.pas.rest.config.PayaraContainerInitializer;
 import pl.pas.rest.controllers.dto.ClientDto;
 
-class UserControllerTest extends JakartaContainerInitializer {
+class UserControllerTest extends PayaraContainerInitializer {
 
     private static final String basePath = "/api/clients";
 

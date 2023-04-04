@@ -7,6 +7,7 @@ import java.util.UUID;
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Inheritance;
@@ -49,6 +50,7 @@ public class DeliveryEntity extends EntityModel {
     private PackageEntity pack;
 
     @EqualsAndHashCode.Exclude
+    @Column(name = "locker_id")
     private UUID lockerId;
 
     private LocalDateTime allocationStart;

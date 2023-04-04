@@ -15,7 +15,9 @@ import io.restassured.specification.RequestSpecification;
 
 @Testcontainers
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class JakartaContainerInitializer {
+public class PayaraContainerInitializer {
+
+    private static final String APP_NAME = "parcel-locker-rest-1.0-SNAPSHOT";
 
     public static final String DB_NAME = "database";
     public static final String DB_USERNAME = "admin";
@@ -25,11 +27,11 @@ public class JakartaContainerInitializer {
         .withTag("15.0-alpine");
 
     private static final int PORT = 8080;
-    private static final String PACKAGE_NAME = "parcel-locker-rest-1.0-SNAPSHOT.war";
+    private static final String PACKAGE_NAME = APP_NAME + ".war";
     private static final String CONTAINER_DEPLOYMENT_PATH = "/opt/payara/deployments/";
     private static final DockerImageName PAYARA_IMAGE = DockerImageName
-        .parse("payara/micro")
-        .withTag("6.2023.2-jdk17");
+        .parse("payara/server-full")
+        .withTag("6.2023.3-jdk17");
 
     private static final Network network = Network.newNetwork();
 
@@ -47,10 +49,9 @@ public class JakartaContainerInitializer {
         .withCopyFileToContainer(
             MountableFile.forHostPath("target/" + PACKAGE_NAME),
             CONTAINER_DEPLOYMENT_PATH + PACKAGE_NAME)
-        .waitingFor(Wait.forLogMessage(".* Payara Micro .* ready in .*\\s", 1))
         .withNetwork(network)
         .dependsOn(postgres)
-        .withCommand("--deploy " + CONTAINER_DEPLOYMENT_PATH + PACKAGE_NAME + " --contextRoot /");
+        .waitingFor(Wait.forHttp("/" + APP_NAME + "/api/health").forPort(8080).forStatusCode(200));
 
     protected static RequestSpecification requestSpecification;
 
@@ -63,7 +64,8 @@ public class JakartaContainerInitializer {
 
         String baseUri = "http://" +
             jakartaApp.getHost() + ":" +
-            jakartaApp.getMappedPort(PORT);
+            jakartaApp.getMappedPort(PORT) +
+            "/" + APP_NAME;
 
         requestSpecification = new RequestSpecBuilder()
             .setBaseUri(baseUri)

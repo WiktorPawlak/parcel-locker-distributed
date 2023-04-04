@@ -1,14 +1,15 @@
 package pl.pas.rest.controllers;
 
-import io.restassured.http.ContentType;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static io.restassured.RestAssured.given;
+
 import org.junit.jupiter.api.Test;
-import pl.pas.rest.config.JakartaContainerInitializer;
+
+import io.restassured.http.ContentType;
+import pl.pas.rest.config.PayaraContainerInitializer;
 import pl.pas.rest.controllers.dto.LockerDto;
 
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.equalTo;
-
-class LockerControllerTest extends JakartaContainerInitializer {
+class LockerControllerTest extends PayaraContainerInitializer {
 
     private static final String basePath = "/api/lockers";
 

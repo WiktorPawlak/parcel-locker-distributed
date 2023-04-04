@@ -16,7 +16,7 @@ import org.junit.jupiter.api.TestInstance;
 import io.restassured.http.ContentType;
 import pl.pas.core.applicationmodel.model.locker.Locker;
 import pl.pas.core.applicationmodel.model.user.Client;
-import pl.pas.rest.config.JakartaContainerInitializer;
+import pl.pas.rest.config.PayaraContainerInitializer;
 import pl.pas.rest.controllers.dto.ClientDto;
 import pl.pas.rest.controllers.dto.DeliveryListDto;
 import pl.pas.rest.controllers.dto.DeliveryParcelDto;
@@ -25,7 +25,7 @@ import pl.pas.rest.controllers.dto.LockerDto;
 import pl.pas.rest.controllers.dto.ParcelDto;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class DeliveryControllerTest extends JakartaContainerInitializer {
+class DeliveryControllerTest extends PayaraContainerInitializer {
 
     Client receiver = new Client("Tony", "Stark", "1234567890");
     Client shipper = new Client("Steven", "Rogers", "9987654321");
