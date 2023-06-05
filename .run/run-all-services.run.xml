@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="run-all-services" type="CompoundRunConfigurationType">
+    <toRun name="api-gateway" type="SpringBootApplicationConfigurationType" />
+    <toRun name="as-rest" type="SpringBootApplicationConfigurationType" />
+    <toRun name="domain-rest" type="SpringBootApplicationConfigurationType" />
+    <toRun name="service-discovery" type="SpringBootApplicationConfigurationType" />
+    <method v="2" />
+  </configuration>
+</component>

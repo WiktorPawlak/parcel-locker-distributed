@@ -1,0 +1,57 @@
+server:
+    port: ${AUTH_DEPLOYMENT_PORT:8080}
+
+spring:
+    application:
+        name: auth-service
+    datasource:
+        driver-class-name: org.postgresql.Driver
+        url: jdbc:postgresql://localhost:5433/database
+        username: admin
+        password: admin
+    jpa:
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
+        hibernate:
+            ddl-auto: create-drop
+
+logging:
+    pattern:
+        level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
+
+eureka:
+    client:
+        service-url:
+            defaultZone: ${EUREKA_URL:http://localhost:8761}/eureka
+
+management:
+    endpoints:
+        web:
+            exposure:
+                include: "*"
+    endpoint:
+        health:
+            probes:
+                enabled: true
+            show-details: always
+            show-components: always
+    metrics:
+        tags:
+            application: ${spring.application.name}
+        distribution:
+            percentiles-histogram:
+                all: true
+                http.server.requests: true
+    tracing:
+        sampling:
+            probability: 1.0
+    prometheus:
+        metrics:
+            export:
+                step: 10s
+    info:
+        env:
+            enabled: true
+        java:
+            enabled: true
+        os:
+            enabled: true
