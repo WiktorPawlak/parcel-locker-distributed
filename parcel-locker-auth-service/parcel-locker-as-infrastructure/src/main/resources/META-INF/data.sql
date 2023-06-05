@@ -1,0 +1,1 @@
+insert into USERS (id, version, firstname, lastname, active, telnumber, role, password) values ('00000000-0000-0000-0000-000000000000', 0, 'Tony', 'Stark', true, '123456', 'CLIENT','$2a$10$KqWhMeaimPB04ATEbl6F4OBWDZWxXn7U6o0pwIu.TyPD7Y45oFoza');
